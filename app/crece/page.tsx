@@ -15,8 +15,7 @@ const packages = [
       "Garantía de reposición",
     ],
     highlighted: false,
-    gradient: "from-blue-600/20 to-blue-900/40",
-    borderColor: "border-blue-500/30",
+    color: "blue",
   },
   {
     title: '"empecemos suave"',
@@ -28,8 +27,7 @@ const packages = [
       "Regalo de Likes",
     ],
     highlighted: false,
-    gradient: "from-blue-500/30 to-indigo-900/40",
-    borderColor: "border-indigo-500/40",
+    color: "indigo",
   },
   {
     title: '"tamo fino"',
@@ -41,8 +39,7 @@ const packages = [
       "Atención personalizada",
     ],
     highlighted: false,
-    gradient: "from-teal-600/30 to-blue-900/40",
-    borderColor: "border-teal-500/40",
+    color: "teal",
   },
   {
     title: '"bien parado"',
@@ -54,8 +51,7 @@ const packages = [
       "Mejor valor/precio",
     ],
     highlighted: true,
-    gradient: "from-green-500/40 to-blue-900/50",
-    borderColor: "border-green-500",
+    color: "green",
   },
   {
     title: '"eso es opulencia total"',
@@ -67,8 +63,7 @@ const packages = [
       "Plan de crecimiento personalizado",
     ],
     highlighted: false,
-    gradient: "from-yellow-500/30 to-amber-900/40",
-    borderColor: "border-yellow-500/50",
+    color: "yellow",
   },
 ];
 
@@ -97,26 +92,26 @@ const steps = [
 
 export default function CrecePage() {
   return (
-    <div className="min-h-screen bg-[#020b18] text-gray-100 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       {/* Hero Header */}
-      <section className="relative pt-20 pb-16 overflow-hidden border-b border-white/5">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] -z-10 rounded-full" />
+      <section className="relative pt-32 pb-20 overflow-hidden border-b border-slate-200/60 bg-white">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-100/50 blur-[120px] -z-10 rounded-full" />
         <div className="max-w-7xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6">
+            <span className="inline-block py-1.5 px-4 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-bold mb-6 shadow-sm">
               Servicio de Crecimiento Instagram
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900">
               Alcanza la cima de <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-green-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-green-500">
                 Instagram Hoy
               </span>
             </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               Aumenta tu credibilidad y atrae más clientes con seguidores reales y un crecimiento metódico y seguro.
             </p>
           </motion.div>
@@ -124,13 +119,13 @@ export default function CrecePage() {
       </section>
 
       {/* How it Works Section */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
+      <section className="max-w-7xl mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white flex items-center justify-center gap-3">
-            <HelpCircle className="text-blue-400 w-8 h-8" />
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 flex items-center justify-center gap-3">
+            <HelpCircle className="text-blue-500 w-8 h-8 bg-blue-50 rounded-full p-1" />
             ¿Cómo funciona?
           </h2>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+          <p className="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
             El proceso es 100% transparente, seguro y no pone en riesgo tu cuenta.
           </p>
         </div>
@@ -143,13 +138,13 @@ export default function CrecePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.15 }}
-              className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.04] transition-colors"
+              className="relative p-8 rounded-3xl bg-white border border-slate-200 shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-transform duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
-                <step.icon className="w-6 h-6 text-blue-400" />
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 border border-blue-100">
+                <step.icon className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{step.desc}</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{step.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -158,59 +153,61 @@ export default function CrecePage() {
       {/* Packages Section */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white mb-4">Elige tu Pack Ideal</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Elige tu Pack Ideal</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
             Todos nuestros planes incluyen garantía de reposición. Dale a tu perfil el impulso que merece.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {packages.map((pkg, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -5 }}
-              className={`relative rounded-3xl border bg-gradient-to-b ${pkg.gradient} ${pkg.borderColor} p-8 flex flex-col h-full`}
+              whileHover={{ y: -8 }}
+              className={`relative rounded-3xl border bg-white p-8 flex flex-col h-full shadow-2xl transition-all duration-300 ${
+                pkg.highlighted ? 'border-green-400 shadow-green-500/10' : 'border-slate-200 shadow-slate-200/50'
+              }`}
             >
               {pkg.highlighted && (
-                <div className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 bg-green-500 text-black text-sm font-bold px-4 py-1 rounded-full z-10 shadow-lg">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-400 to-teal-500 text-white text-sm font-bold px-6 py-1.5 rounded-full z-10 shadow-lg">
                   MÁS POPULAR
                 </div>
               )}
               
-              <div className="mb-6 border-b border-white/10 pb-6">
+              <div className="mb-6 border-b border-slate-100 pb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Rocket className={`w-5 h-5 ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`} />
-                  <span className="text-sm font-semibold tracking-wide text-gray-300 uppercase">Pack</span>
+                  <Rocket className={`w-5 h-5 ${pkg.highlighted ? 'text-green-500' : 'text-blue-500'}`} />
+                  <span className="text-sm font-bold tracking-widest text-slate-400 uppercase">Pack</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white leading-tight mb-4">{pkg.title}</h3>
+                <h3 className="text-2xl font-bold text-slate-900 leading-tight mb-4 capitalize">{pkg.title}</h3>
                 
                 <div className="flex items-end gap-2 mb-2">
-                  <span className={`text-5xl font-black ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`}>
+                  <span className={`text-6xl font-black tracking-tight ${pkg.highlighted ? 'text-green-500' : 'text-slate-900'}`}>
                     {pkg.followers}
                   </span>
-                  <span className="text-gray-400 font-medium mb-1">Seguidores</span>
                 </div>
+                <span className="text-slate-500 font-medium block mb-4">Seguidores</span>
                 
-                <div className="inline-block mt-3 bg-white/10 px-4 py-2 rounded-lg backdrop-blur-sm border border-white/5">
-                  <span className="text-sm text-gray-400 mr-2">¡Solo!</span>
-                  <span className="text-2xl font-bold text-white">{pkg.price}</span>
+                <div className="inline-block bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
+                  <span className="text-sm text-slate-500 mr-2 font-medium">¡Solo!</span>
+                  <span className="text-2xl font-extrabold text-slate-900">{pkg.price}</span>
                 </div>
               </div>
               
               <ul className="space-y-4 mb-8 flex-1">
                 {pkg.features.map((feat, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <CheckCircle2 className={`w-5 h-5 shrink-0 ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`} />
-                    <span className="text-gray-200 font-medium">{feat}</span>
+                    <CheckCircle2 className={`w-5 h-5 shrink-0 ${pkg.highlighted ? 'text-green-500' : 'text-blue-500'}`} />
+                    <span className="text-slate-700 font-medium">{feat}</span>
                   </li>
                 ))}
               </ul>
 
               <Link href="https://wa.me/51921831358" target="_blank" className="w-full mt-auto">
-                <button className={`w-full py-4 rounded-xl font-bold transition-all flex justify-center items-center gap-2 ${
+                <button className={`w-full py-4 rounded-xl font-bold transition-all flex justify-center items-center gap-2 shadow-lg ${
                   pkg.highlighted 
-                    ? 'bg-green-500 hover:bg-green-400 text-black shadow-[0_0_20px_rgba(34,197,94,0.3)]' 
-                    : 'bg-white/10 hover:bg-white/20 text-white'
+                    ? 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/30' 
+                    : 'bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/20'
                 }`}>
                   WhatsApp: 921 831 358
                 </button>
@@ -221,14 +218,14 @@ export default function CrecePage() {
       </section>
 
       {/* Security Trust Section */}
-      <section className="max-w-4xl mx-auto px-4 py-20">
-        <div className="bg-[#0a1628] rounded-3xl p-8 md:p-12 border border-blue-500/20 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[80px] rounded-full" />
-          <ShieldCheck className="w-16 h-16 text-blue-400 mx-auto mb-6 relative z-10" />
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white relative z-10">Tu cuenta siempre segura</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed relative z-10">
+      <section className="max-w-4xl mx-auto px-4 py-24">
+        <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-200 shadow-2xl shadow-blue-900/5 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 blur-[80px] rounded-full" />
+          <ShieldCheck className="w-16 h-16 text-blue-500 mx-auto mb-6 relative z-10 bg-blue-50 rounded-full p-2" />
+          <h2 className="text-2xl md:text-4xl font-extrabold mb-4 text-slate-900 relative z-10">Tu cuenta siempre segura</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed relative z-10 text-lg">
             Nuestros procesos de crecimiento están diseñados para respetar los límites de Instagram. 
-            <strong> Jamás te pediremos contraseñas.</strong> Nuestro software inyecta tráfico orgánico-simulado 
+            <strong className="text-slate-900"> Jamás te pediremos contraseñas.</strong> Nuestro software inyecta tráfico orgánico-simulado 
             que la plataforma reconoce como natural. ¡Crecemos juntos, sin riesgos!
           </p>
         </div>

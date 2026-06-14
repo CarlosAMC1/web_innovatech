@@ -24,7 +24,7 @@ export default function RootLayout({
       lang="es"
       className={`${outfit.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#050510] text-white font-sans selection:bg-blue-500 selection:text-white">
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-blue-200 selection:text-blue-900">
         <Navbar />
         <main className="flex-grow pt-20">
           {children}
