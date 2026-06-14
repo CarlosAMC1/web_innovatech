@@ -6,6 +6,7 @@ RUN apt-get update -y && apt-get install -y openssl
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
+COPY prisma ./prisma
 RUN npm ci
 
 FROM base AS builder
