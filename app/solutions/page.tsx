@@ -108,6 +108,75 @@ export default function SolutionsPage() {
         </div>
       </section>
 
+      {/* Portfolio Showcase */}
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4">Casos de Éxito y Ejemplos</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Creamos interfaces premium que no solo se ven espectaculares, sino que optimizan el trabajo diario de tu equipo y aumentan tus ventas.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* CRM Showcase */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden group shadow-[0_0_40px_rgba(37,99,235,0.1)]"
+          >
+            <div className="relative h-56 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/crm.png" alt="Plataforma CRM" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050510] to-transparent opacity-80" />
+            </div>
+            <div className="p-8 -mt-10 relative z-10">
+              <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">CRM & CHAT</span>
+              <h3 className="text-xl font-bold text-white mt-4 mb-3">Sistemas de Gestión de Leads</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                Plataformas de atención al cliente (Omnicanalidad) con interfaces modernas, oscuras y de alta respuesta para tus asesores de ventas.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* ERP Showcase */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden group shadow-[0_0_40px_rgba(34,197,94,0.1)]"
+          >
+            <div className="relative h-56 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/erp.png" alt="Sistema ERP" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050510] to-transparent opacity-80" />
+            </div>
+            <div className="p-8 -mt-10 relative z-10">
+              <span className="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/30">INTRANET ERP</span>
+              <h3 className="text-xl font-bold text-white mt-4 mb-3">Gestión de Recursos y Reportes</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                Dashboards gerenciales con métricas en tiempo real, filtros detallados y exportación de datos para la toma de decisiones empresariales.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Ecommerce Showcase */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden group shadow-[0_0_40px_rgba(234,179,8,0.1)]"
+          >
+            <div className="relative h-56 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/ecommerce.png" alt="E-Commerce Website" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050510] to-transparent opacity-80" />
+            </div>
+            <div className="p-8 -mt-10 relative z-10">
+              <span className="bg-yellow-500/20 text-yellow-400 text-xs font-bold px-3 py-1 rounded-full border border-yellow-500/30">E-COMMERCE</span>
+              <h3 className="text-xl font-bold text-white mt-4 mb-3">Tiendas Virtuales Premium</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                Páginas de ventas de alto impacto visual (ej. Bodegas, Retail) diseñadas para generar confianza, retener al cliente y maximizar la conversión.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Contact Form Section */}
       <section id="contact" className="max-w-4xl mx-auto px-4 py-20">
         <div className="bg-black border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">

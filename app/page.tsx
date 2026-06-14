@@ -44,7 +44,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16"
         >
           <Link href="/crece">
             <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-medium bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 transition-all shadow-[0_0_40px_rgba(34,197,94,0.3)] flex items-center justify-center gap-2">
@@ -58,6 +58,17 @@ export default function Home() {
               Ver Innovatech Solutions
             </button>
           </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="relative w-full max-w-5xl mx-auto rounded-2xl border border-white/10 overflow-hidden shadow-[0_0_100px_rgba(37,99,235,0.15)]"
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020b18] via-transparent to-transparent z-10" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/hero.png" alt="Innovatech Dashboard Mockup" className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity" />
         </motion.div>
       </section>
 
