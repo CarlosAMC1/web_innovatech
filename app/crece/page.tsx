@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Rocket, CheckCircle2, ShieldCheck, Camera, Search, 
   CreditCard, TrendingUp, HelpCircle, ArrowRight, Zap, 
-  Check, Sparkles, AlertCircle, Users, Activity, Eye, RefreshCw
+  Check, Sparkles, Activity, Users, RefreshCw, Eye
 } from "lucide-react";
 import Link from "next/link";
 
@@ -54,7 +54,7 @@ const packages = [
     features: [
       "800 Seguidores de alta calidad",
       "Interacción simulada orgánica",
-      "Garantía extendida (60 días)",
+      "Garantía de reposición (60 días)",
       "Soporte rápido por WhatsApp",
     ],
     highlighted: false,
@@ -72,7 +72,7 @@ const packages = [
       "1,000 Seguidores premium activos",
       "Inyección orgánica segura",
       "Máxima relación valor/precio",
-      "Garantía extendida (90 días)",
+      "Garantía de reposición (90 días)",
       "Soporte prioritario 24/7",
     ],
     highlighted: true,
@@ -89,7 +89,7 @@ const packages = [
     features: [
       "2,000 Seguidores premium VIP",
       "Estrategia de goteo natural",
-      "Garantía de por vida",
+      "Garantía de reposición de por vida",
       "Análisis de perfil de regalo",
       "Soporte dedicado VIP",
     ],
@@ -122,6 +122,98 @@ const steps = [
   }
 ];
 
+/* ─── Floating Starry Sky Particles ─── */
+function FloatingParticles() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(25)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-white"
+          style={{
+            width: Math.random() * 3 + 1.5,
+            height: Math.random() * 3 + 1.5,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            opacity: Math.random() * 0.25 + 0.05,
+          }}
+          animate={{
+            y: [0, -120, 0],
+            x: [0, Math.random() * 30 - 15, 0],
+          }}
+          transition={{
+            duration: Math.random() * 15 + 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ─── Live Profile Growing Widget ─── */
+function LiveCounterWidget() {
+  const [followers, setFollowers] = useState(12482);
+  const [pulse, setPulse] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFollowers(prev => prev + Math.floor(Math.random() * 2) + 1);
+      setPulse(true);
+      const timer = setTimeout(() => setPulse(false), 900);
+      return () => clearTimeout(timer);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 w-full max-w-[280px] shadow-2xl relative"
+    >
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#e1306c] to-[#f77737] p-[2px]">
+          <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-xs font-black text-white">
+            i
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-black text-white">@innovatech.crece</p>
+          <p className="text-[9px] text-[#00caa4] font-black uppercase tracking-wider">Crecimiento Activo</p>
+        </div>
+      </div>
+      <div className="mt-4 flex items-baseline justify-between border-t border-white/10 pt-3">
+        <div>
+          <p className="text-[9px] font-bold text-blue-200/50 uppercase tracking-widest">Seguidores</p>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl font-black text-white tracking-tight">
+              {followers.toLocaleString()}
+            </span>
+            <AnimatePresence>
+              {pulse && (
+                <motion.span 
+                  initial={{ opacity: 0, y: 8, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="text-[10px] font-black text-emerald-400"
+                >
+                  +1
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[9px] font-bold">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" /> En vivo
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function CrecePage() {
   // Calculator state
   const [sliderVal, setSliderVal] = useState(3); // Default index 3 (1000 followers)
@@ -132,7 +224,7 @@ export default function CrecePage() {
       
       {/* ========== HERO HEADER (Instagram Gradient Fusion) ========== */}
       <section className="relative pt-36 pb-28 overflow-hidden bg-gradient-to-br from-[#00469b] via-[#09163b] to-[#36092b] text-white">
-        {/* Subtle grid and decorative circles */}
+        <FloatingParticles />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[300px] bg-[#e1306c]/10 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#00caa4]/10 blur-[150px] rounded-full pointer-events-none" />
@@ -142,18 +234,18 @@ export default function CrecePage() {
             
             {/* Left Column — Info */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7 }}
             >
               <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#00caa4] text-xs font-black uppercase tracking-wider mb-6">
-                <Sparkles className="w-3.5 h-3.5" /> Innovatech Crece v2.0
+                <Sparkles className="w-3.5 h-3.5 text-[#e1306c]" /> Innovatech Crece v2.0
               </span>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] mb-6">
                 Domina el algoritmo <br />
                 de{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e1306c] via-[#f77737] to-[#00caa4]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e1306c] via-[#f77737] to-[#00caa4] animate-pulse">
                   Instagram
                 </span>
                 <span className="text-[#00caa4]">.</span>
@@ -163,30 +255,33 @@ export default function CrecePage() {
                 Deja de pelear por alcance. Generamos interacciones y seguidores reales, activos y seguros que le dan a tu marca la autoridad comercial que necesita para vender más. Sin bots basura, 100% libre de shadowbans.
               </p>
 
-              {/* Quick stats grid */}
-              <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6 mb-8 max-w-md">
-                <div>
-                  <p className="text-2xl font-black text-white">+580k</p>
-                  <p className="text-[10px] text-blue-200/50 uppercase tracking-widest font-bold">Seguidores Entregados</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-white">99.8%</p>
-                  <p className="text-[10px] text-blue-200/50 uppercase tracking-widest font-bold">Tasa de Seguridad</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-white">&lt; 24h</p>
-                  <p className="text-[10px] text-blue-200/50 uppercase tracking-widest font-bold">Tiempo de Respuesta</p>
+              {/* Floating Widget & Info row */}
+              <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center mb-8 border-t border-white/10 pt-6">
+                <LiveCounterWidget />
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
+                    <Check className="w-4 h-4 text-[#00caa4]" />
+                    <span>Seguidores Premium Orgánicos</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
+                    <Check className="w-4 h-4 text-[#00caa4]" />
+                    <span>Crecimiento Seguro por Software</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
+                    <Check className="w-4 h-4 text-[#00caa4]" />
+                    <span>Garantía de Reposición Incluida</span>
+                  </div>
                 </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="#calculator">
-                  <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-[#e1306c] to-[#f77737] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-lg shadow-pink-500/20 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
+                  <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-[#e1306c] to-[#f77737] hover:scale-[1.03] hover:shadow-pink-500/35 active:scale-[0.98] text-white transition-all shadow-lg shadow-pink-500/20 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
                     <Zap className="w-4 h-4" /> Calcular Crecimiento
                   </button>
                 </a>
                 <a href="#packages">
-                  <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all text-sm flex items-center justify-center gap-2">
+                  <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:scale-[1.02] transition-all text-sm flex items-center justify-center gap-2">
                     Ver Paquetes Clásicos <ArrowRight className="w-4 h-4" />
                   </button>
                 </a>
@@ -195,17 +290,21 @@ export default function CrecePage() {
 
             {/* Right Column — 3D Render Image */}
             <motion.div
-              initial={{ opacity: 0, x: 30, scale: 0.95 }}
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
               className="relative flex justify-center"
             >
               <div className="relative w-full max-w-[450px]">
                 {/* Glowing backdrop circle */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-[#e1306c] to-[#00caa4] rounded-3xl blur-2xl opacity-35 animate-pulse" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950/80 p-2">
+                <motion.div 
+                  whileHover={{ y: -8, rotateZ: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950/80 p-2 cursor-pointer"
+                >
                   <img src="/images/instagram_growth.png" alt="Instagram Growth Graphics" className="w-full h-auto rounded-2xl" />
-                </div>
+                </motion.div>
               </div>
             </motion.div>
 
@@ -252,13 +351,21 @@ export default function CrecePage() {
               desc: "Instagram premia el volumen de tu comunidad. Más seguidores implica que el algoritmo priorice tus posts."
             }
           ].map((item, idx) => (
-            <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 transition-all hover:scale-[1.01] hover:border-slate-300">
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm cursor-default"
+            >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 border ${item.color}`}>
                 <item.icon className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
               <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -284,9 +391,15 @@ export default function CrecePage() {
                 <div className="flex justify-between items-baseline mb-2">
                   <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Cantidad Elegida</span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl md:text-5xl font-black text-[#00469b] tracking-tight">
+                    <motion.span 
+                      key={currentPack.followers}
+                      initial={{ scale: 0.8, opacity: 0.5 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                      className="text-4xl md:text-5xl font-black text-[#00469b] tracking-tight"
+                    >
                       {currentPack.followersText}
-                    </span>
+                    </motion.span>
                     <span className="text-xs font-bold text-slate-500 uppercase">Seguidores</span>
                   </div>
                 </div>
@@ -314,11 +427,33 @@ export default function CrecePage() {
                 <div className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 space-y-2.5">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-slate-500 uppercase">Modo de Entrega</span>
-                    <span className="font-black text-[#00469b]">{currentPack.time}</span>
+                    <AnimatePresence mode="wait">
+                      <motion.span 
+                        key={currentPack.time}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.15 }}
+                        className="font-black text-[#00469b]"
+                      >
+                        {currentPack.time}
+                      </motion.span>
+                    </AnimatePresence>
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-slate-500 uppercase">Paquete</span>
-                    <span className="font-black text-[#e1306c] capitalize">{currentPack.title}</span>
+                    <AnimatePresence mode="wait">
+                      <motion.span 
+                        key={currentPack.title}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.15 }}
+                        className="font-black text-[#e1306c] capitalize"
+                      >
+                        {currentPack.title}
+                      </motion.span>
+                    </AnimatePresence>
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-slate-500 uppercase">Garantía Incluida</span>
@@ -338,9 +473,18 @@ export default function CrecePage() {
                     {currentPack.badge}
                   </span>
                   <p className="text-xs text-blue-200 font-bold uppercase tracking-wider mb-1">Precio Total Especial</p>
-                  <p className="text-5xl font-black text-white mb-6">
-                    {currentPack.price}
-                  </p>
+                  <AnimatePresence mode="wait">
+                    <motion.p 
+                      key={currentPack.price}
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.9, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                      className="text-5xl font-black text-white mb-6"
+                    >
+                      {currentPack.price}
+                    </motion.p>
+                  </AnimatePresence>
                 </div>
 
                 <div className="space-y-4">
@@ -360,8 +504,8 @@ export default function CrecePage() {
                     target="_blank"
                     className="block w-full"
                   >
-                    <button className="w-full py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white transition-all shadow-md flex justify-center items-center gap-2 text-xs uppercase tracking-wider">
-                      <Zap className="w-4 h-4" /> Comprar por WhatsApp
+                    <button className="w-full py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-md flex justify-center items-center gap-2 text-xs uppercase tracking-wider">
+                      <Zap className="w-4 h-4 animate-bounce" /> Comprar por WhatsApp
                     </button>
                   </Link>
                 </div>
@@ -387,8 +531,12 @@ export default function CrecePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, idx) => (
-              <div 
+              <motion.div 
                 key={idx}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="relative p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm"
               >
                 <span className="absolute top-4 right-4 text-3xl font-black text-[#00469b]/10 select-none">{`0${idx + 1}`}</span>
@@ -397,7 +545,7 @@ export default function CrecePage() {
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
                 <p className="text-slate-500 text-xs leading-relaxed">{step.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -420,8 +568,18 @@ export default function CrecePage() {
             {packages.map((pkg, index) => (
               <motion.div
                 key={index}
-                whileHover={{ y: -6 }}
-                className={`relative rounded-3xl border bg-white p-8 flex flex-col h-full shadow-sm hover:shadow-md transition-all duration-300 ${
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
+                whileHover={{ 
+                  y: -10,
+                  scale: 1.02,
+                  boxShadow: pkg.highlighted 
+                    ? "0 20px 40px -15px rgba(0, 202, 164, 0.35)" 
+                    : "0 20px 40px -15px rgba(0, 70, 155, 0.2)"
+                }}
+                className={`relative rounded-3xl border bg-white p-8 flex flex-col h-full shadow-sm cursor-pointer transition-all duration-300 ${
                   pkg.highlighted 
                     ? 'border-[#00caa4] ring-1 ring-[#00caa4]' 
                     : 'border-slate-200'
@@ -480,7 +638,13 @@ export default function CrecePage() {
       {/* ========== SECURITY TRUST SECTION (White Background) ========== */}
       <section className="w-full py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-gradient-to-br from-[#00469b] to-[#040e2c] rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl text-center relative overflow-hidden text-white">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-[#00469b] to-[#040e2c] rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl text-center relative overflow-hidden text-white"
+          >
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#00caa4]/10 blur-[80px] rounded-full pointer-events-none" />
             <ShieldCheck className="w-14 h-14 text-[#00caa4] mx-auto mb-6 relative z-10 bg-white/10 rounded-full p-2 border border-white/10 shadow-sm" />
             
@@ -489,7 +653,7 @@ export default function CrecePage() {
               Nuestros procesos de crecimiento están diseñados para respetar las directrices de la plataforma.
               <strong className="text-white"> Jamás solicitaremos tus credenciales de acceso.</strong> Nuestro software inyecta visitas orgánicas que indexan de manera natural el perfil para garantizar total confidencialidad y estabilidad a largo plazo. ¡Asegura tu crecimiento!
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

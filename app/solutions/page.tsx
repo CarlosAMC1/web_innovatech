@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Server, ShieldCheck, Database, Smartphone, Globe, TerminalSquare, X, ArrowRight, Zap, Check } from "lucide-react";
+import { 
+  Code2, Server, ShieldCheck, Database, Smartphone, 
+  Globe, TerminalSquare, X, ArrowRight, Zap, Check, Cpu, Cloud, Settings
+} from "lucide-react";
 import Link from "next/link";
 
 const services = [
@@ -65,6 +68,58 @@ const portfolioItems = [
     color: "green",
     description: "Páginas de ventas de alto impacto visual diseñadas para generar confianza, retener al cliente y maximizar la conversión.",
     details: "Tiendas online ultrarrápidas construidas con Next.js que ofrecen tiempos de carga en milisegundos. Integran pasarelas de pago seguras locales e internacionales, recuperación de carritos abandonados, gestión de cupones y un panel administrativo intuitivo para gestionar miles de productos sin complicaciones técnicas."
+  },
+  {
+    id: "ai",
+    title: "Automatización & Agentes Inteligentes IA",
+    category: "AUTOMATIZACIÓN IA",
+    image: "/images/ai_automation.png",
+    color: "teal",
+    description: "Integración de modelos LLM y agentes de inteligencia artificial para optimizar soporte al cliente, análisis financiero y flujos internos.",
+    details: "Desarrollamos agentes cognitivos de IA capaces de resolver tickets de soporte, clasificar leads y automatizar tareas administrativas complejas. Conectamos modelos de lenguaje avanzados con tus bases de datos mediante APIs seguras para que obtengas respuestas automáticas basadas en la realidad de tu empresa."
+  }
+];
+
+const techStacks = [
+  {
+    id: "web",
+    name: "Desarrollo Web",
+    techs: [
+      { name: "Next.js / React", type: "Frontend", desc: "Velocidad de carga instantánea y optimización SEO nativa." },
+      { name: "TailwindCSS", type: "Estilos", desc: "Estilos consistentes, modernos y adaptabilidad móvil total." },
+      { name: "Node.js / Express", type: "Backend", desc: "Servicios escalables y APIs RESTful de baja latencia." },
+      { name: "TypeScript", type: "Lenguaje", desc: "Código robusto y libre de errores tipográficos en producción." }
+    ]
+  },
+  {
+    id: "mobile",
+    name: "Apps Móviles",
+    techs: [
+      { name: "React Native / Expo", type: "Frontend", desc: "Un solo código base para iOS y Android reduciendo costos." },
+      { name: "Tailwind Native", type: "Estilos", desc: "Consistencia visual móvil y transiciones aceleradas." },
+      { name: "Firebase / Supabase", type: "Backend", desc: "Sincronización en tiempo real y notificaciones push inmediatas." },
+      { name: "Fastlane", type: "Despliegue", desc: "Automatización de entregas directas a Play Store y App Store." }
+    ]
+  },
+  {
+    id: "enterprise",
+    name: "Sistemas ERP/CRM",
+    techs: [
+      { name: "React / Vite", type: "Frontend", desc: "Consola de administración ultrarrápida con dashboards fluidos." },
+      { name: "Prisma ORM", type: "Acceso Datos", desc: "Conexión robusta y consultas optimizadas a base de datos." },
+      { name: "PostgreSQL", type: "Base de Datos", desc: "Almacenamiento relacional altamente seguro y transacciones ACID." },
+      { name: "AWS / Docker", type: "Nube & DevOps", desc: "Contenedores aislados y escalabilidad elástica automatizada." }
+    ]
+  },
+  {
+    id: "ai_tech",
+    name: "Automatización IA",
+    techs: [
+      { name: "FastAPI / Python", type: "Backend", desc: "Servicios ligeros para procesamiento asíncrono y machine learning." },
+      { name: "LangChain / Llamaindex", type: "Framework IA", desc: "Gestión de memoria de agentes y encadenamiento de prompts." },
+      { name: "OpenAI / Anthropic APIs", type: "Modelos LLM", desc: "Razonamiento lógico avanzado y chatbots con lenguaje natural." },
+      { name: "PgVector", type: "Base de Datos Vectorial", desc: "Búsqueda semántica inteligente en base a documentos corporativos." }
+    ]
   }
 ];
 
@@ -76,6 +131,9 @@ const colorMap: Record<string, { bg: string; text: string; border: string; accen
 
 export default function SolutionsPage() {
   const [selectedProject, setSelectedProject] = useState<typeof portfolioItems[0] | null>(null);
+  const [activeStack, setActiveStack] = useState("web");
+
+  const currentStack = techStacks.find(s => s.id === activeStack) || techStacks[0];
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-[#00469b]/10 selection:text-[#00469b]">
@@ -111,7 +169,7 @@ export default function SolutionsPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-blue-100/80 text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            Construimos software robusto, escalable y con altos estándares de ciberseguridad. Protegemos tu infraestructura mientras automatizamos tus operaciones comerciales.
+            Construimos software robusto, scalables y con altos estándares de ciberseguridad. Protegemos tu infraestructura mientras automatizamos tus operaciones comerciales.
           </motion.p>
           
           <motion.div
@@ -120,7 +178,7 @@ export default function SolutionsPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Link href="#contact">
-              <button className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
+              <button className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
                 Solicitar Cotización
               </button>
             </Link>
@@ -140,16 +198,32 @@ export default function SolutionsPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: {},
+            show: {
+              transition: {
+                staggerChildren: 0.08
+              }
+            }
+          }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              whileHover={{ y: -4 }}
-              className="bg-slate-50 border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+              whileHover={{ 
+                y: -6, 
+                boxShadow: "0 15px 30px -10px rgba(0,70,155,0.15)"
+              }}
+              className="bg-slate-50 border border-slate-200 rounded-3xl p-8 shadow-sm cursor-default transition-all duration-300"
             >
               <div className="w-12 h-12 bg-[#00caa4]/10 rounded-xl flex items-center justify-center mb-6 border border-[#00caa4]/20">
                 <service.icon className="w-6 h-6 text-[#00469b]" />
@@ -160,6 +234,65 @@ export default function SolutionsPage() {
               </p>
             </motion.div>
           ))}
+        </motion.div>
+      </section>
+
+      {/* ========== INTERACTIVE TECH STACK SELECTOR (White Background) ========== */}
+      <section className="w-full py-24 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#00caa4]/10 text-[#00caa4] text-[10px] font-black uppercase tracking-wider mb-3">
+              Garantía Tecnológica
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900">Stack Tecnológico que Utilizamos</h2>
+            <p className="text-slate-500 mt-2 max-w-lg mx-auto text-xs md:text-sm">
+              Seleccionamos las tecnologías más eficientes del mercado para cada tipo de solución empresarial.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-[260px_1fr] gap-10 items-start max-w-5xl mx-auto">
+            {/* Left - Selectors */}
+            <div className="flex flex-col gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 shadow-sm">
+              {techStacks.map(stack => (
+                <button
+                  key={stack.id}
+                  onClick={() => setActiveStack(stack.id)}
+                  className={`w-full text-left py-3 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-between uppercase tracking-wide ${
+                    activeStack === stack.id
+                      ? "bg-[#00469b] text-white shadow-md"
+                      : "text-slate-600 hover:text-slate-950 hover:bg-slate-200/50"
+                  }`}
+                >
+                  <span>{stack.name}</span>
+                  {activeStack === stack.id && <div className="w-1.5 h-1.5 rounded-full bg-[#00caa4]" />}
+                </button>
+              ))}
+            </div>
+
+            {/* Right - Tech description details */}
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStack}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.25 }}
+                  className="grid sm:grid-cols-2 gap-6"
+                >
+                  {currentStack.techs.map((t, idx) => (
+                    <div key={idx} className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex justify-between items-baseline mb-2">
+                        <span className="text-sm font-bold text-slate-900">{t.name}</span>
+                        <span className="text-[9px] font-black text-[#00caa4] bg-[#00caa4]/10 px-2 py-0.5 rounded-md uppercase tracking-wider">{t.type}</span>
+                      </div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{t.desc}</p>
+                    </div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -177,13 +310,30 @@ export default function SolutionsPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              show: {
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto"
+          >
             {portfolioItems.map((item, index) => {
               const colors = colorMap[item.color] || colorMap.blue;
               return (
                 <motion.div 
                   key={index}
-                  whileHover={{ y: -6 }}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.95 },
+                    show: { opacity: 1, scale: 1, transition: { duration: 0.6 } }
+                  }}
+                  whileHover={{ y: -6, scale: 1.01 }}
                   onClick={() => setSelectedProject(item)}
                   className="rounded-3xl border border-slate-200 bg-white overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all"
                 >
@@ -203,14 +353,20 @@ export default function SolutionsPage() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ========== CONTACT FORM SECTION (Dark Royal Blue) ========== */}
       <section id="contact" className="w-full py-24 bg-gradient-to-br from-[#040e2c] via-[#091f5e] to-[#00469b] text-white">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#00caa4]/10 blur-[80px] rounded-full pointer-events-none" />
             
             <div className="text-center mb-10 relative z-10">
@@ -249,7 +405,7 @@ export default function SolutionsPage() {
                 <ShieldCheck className="w-4 h-4 text-[#00caa4]" /> Datos resguardados y cifrados de extremo a extremo.
               </p>
             </form>
-          </div>
+          </motion.div>
         </div>
       </section>
 
