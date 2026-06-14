@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Server, ShieldCheck, Database, Smartphone, Globe, TerminalSquare, X } from "lucide-react";
+import { Code2, Server, ShieldCheck, Database, Smartphone, Globe, TerminalSquare, X, ArrowRight, Zap, Check } from "lucide-react";
 import Link from "next/link";
 
 const services = [
@@ -68,47 +68,59 @@ const portfolioItems = [
   }
 ];
 
+const colorMap: Record<string, { bg: string; text: string; border: string; accent: string }> = {
+  blue: { bg: "bg-blue-50", text: "text-[#00469b]", border: "border-blue-200", accent: "bg-[#00469b]" },
+  teal: { bg: "bg-teal-50", text: "text-[#00caa4]", border: "border-teal-200", accent: "bg-[#00caa4]" },
+  green: { bg: "bg-green-50", text: "text-emerald-700", border: "border-green-200", accent: "bg-emerald-600" }
+};
+
 export default function SolutionsPage() {
   const [selectedProject, setSelectedProject] = useState<typeof portfolioItems[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      {/* Hero Header */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-white border-b border-slate-200/60">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-teal-100/50 blur-[120px] -z-10 rounded-full" />
-        <div className="max-w-7xl mx-auto px-4 text-center">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-[#00469b]/10 selection:text-[#00469b]">
+      
+      {/* ========== HERO HEADER (Dark Royal Blue) ========== */}
+      <section className="relative pt-32 pb-24 overflow-hidden bg-gradient-to-br from-[#00469b] via-[#091f5e] to-[#040e2c] text-white">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00caa408_1px,transparent_1px),linear-gradient(to_bottom,#00caa408_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#00caa4]/10 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-teal-50 rounded-2xl mb-8 border border-teal-100 shadow-sm"
+            className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-2xl mb-8 border border-white/20 shadow-md backdrop-blur-sm"
           >
-            <Code2 className="w-10 h-10 text-teal-600" />
+            <Code2 className="w-8 h-8 text-[#00caa4]" />
           </motion.div>
+          
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-slate-900"
+            className="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-none"
           >
             Soluciones Tecnológicas <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-500">para tu Empresa</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00caa4] to-emerald-300">para tu Empresa</span>
           </motion.h1>
+          
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-blue-100/80 text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            Desarrollamos software robusto, seguro y escalable. Nos enfocamos en la ciberseguridad para proteger tu información de cualquier amenaza.
+            Construimos software robusto, escalable y con altos estándares de ciberseguridad. Protegemos tu infraestructura mientras automatizamos tus operaciones comerciales.
           </motion.p>
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Link href="#contact">
-              <button className="px-8 py-4 rounded-xl font-bold bg-slate-900 hover:bg-slate-800 text-white transition-all shadow-xl shadow-slate-900/10">
+              <button className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
                 Solicitar Cotización
               </button>
             </Link>
@@ -116,24 +128,34 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      {/* ========== SERVICES GRID (White Background) ========== */}
+      <section className="max-w-7xl mx-auto px-4 py-24 bg-white rounded-t-[2.5rem] mt-[-2rem] relative z-20 shadow-xl border-t border-slate-100">
+        <div className="text-center mb-16">
+          <span className="inline-block px-3 py-1 rounded-full bg-[#00469b]/5 border border-[#00469b]/10 text-[#00469b] text-[10px] font-black uppercase tracking-wider mb-3">
+            Áreas de Especialización
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900">Ingeniería a Tu Medida</h2>
+          <p className="text-slate-500 mt-3 max-w-lg mx-auto text-xs md:text-sm">
+            Diseñamos cada componente bajo arquitectura modular garantizando su escalabilidad.
+          </p>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-all duration-300"
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              whileHover={{ y: -4 }}
+              className="bg-slate-50 border border-slate-200 rounded-3xl p-8 shadow-sm hover:shadow-md transition-all duration-300"
             >
-              <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 border border-teal-100">
-                <service.icon className="w-7 h-7 text-teal-600" />
+              <div className="w-12 h-12 bg-[#00caa4]/10 rounded-xl flex items-center justify-center mb-6 border border-[#00caa4]/20">
+                <service.icon className="w-6 h-6 text-[#00469b]" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900">{service.title}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <h3 className="text-lg font-bold mb-3 text-slate-900">{service.title}</h3>
+              <p className="text-slate-500 text-xs leading-relaxed">
                 {service.description}
               </p>
             </motion.div>
@@ -141,81 +163,97 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      {/* Portfolio Showcase */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Casos de Éxito y Ejemplos</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-            Creamos interfaces premium que no solo se ven espectaculares, sino que optimizan el trabajo diario de tu equipo y aumentan tus ventas.
-            <br/><span className="text-sm text-teal-600 font-bold mt-2 inline-block">Haz clic en cada imagen para ver los detalles.</span>
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {portfolioItems.map((item, index) => (
-            <motion.div 
-              key={index}
-              whileHover={{ y: -8 }}
-              onClick={() => setSelectedProject(item)}
-              className="rounded-3xl border border-slate-200 bg-white overflow-hidden group cursor-pointer shadow-xl shadow-slate-200/50"
-            >
-              <div className="relative h-60 overflow-hidden bg-slate-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-              <div className="p-8">
-                <span className={`inline-block mb-3 bg-${item.color}-50 text-${item.color}-700 text-xs font-bold px-3 py-1.5 rounded-full border border-${item.color}-200`}>
-                  {item.category}
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="contact" className="max-w-4xl mx-auto px-4 py-24">
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 shadow-2xl shadow-blue-900/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 blur-[80px] rounded-full pointer-events-none" />
-          <div className="text-center mb-10 relative z-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900">¿Listo para innovar?</h2>
-            <p className="text-slate-600 text-lg">Déjanos tus datos y un experto en tecnología se comunicará contigo.</p>
-          </div>
-          <form className="space-y-6 relative z-10" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Nombre Completo</label>
-                <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all placeholder:text-slate-400" placeholder="Juan Pérez" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Empresa (Opcional)</label>
-                <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all placeholder:text-slate-400" placeholder="Mi Empresa S.A.C." />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700">Correo Electrónico</label>
-              <input type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all placeholder:text-slate-400" placeholder="correo@ejemplo.com" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700">Mensaje / Requerimiento</label>
-              <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all resize-none placeholder:text-slate-400" placeholder="Cuéntanos sobre tu proyecto..."></textarea>
-            </div>
-            <button type="submit" className="w-full py-4 rounded-xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20">
-              Enviar Mensaje Seguro
-            </button>
-            <p className="text-xs text-center text-slate-500 mt-4 flex items-center justify-center gap-1 font-medium">
-              <ShieldCheck className="w-4 h-4 text-teal-500" /> Tus datos están protegidos y cifrados de extremo a extremo.
+      {/* ========== PORTFOLIO SHOWCASE (Slate-50 Background) ========== */}
+      <section className="w-full py-24 bg-slate-50 border-t border-b border-slate-200/50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#00caa4]/10 text-[#00caa4] text-[10px] font-black uppercase tracking-wider mb-3">
+              Garantía de Calidad
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">Casos de Éxito y Ejemplos</h2>
+            <p className="text-slate-500 max-w-lg mx-auto text-xs md:text-sm">
+              Creamos aplicaciones de alto rendimiento optimizadas para la conversión y la eficiencia operativa.
+              <br/><span className="text-xs text-[#00caa4] font-bold mt-2 inline-block">Haz clic en cada tarjeta para ver los detalles.</span>
             </p>
-          </form>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioItems.map((item, index) => {
+              const colors = colorMap[item.color] || colorMap.blue;
+              return (
+                <motion.div 
+                  key={index}
+                  whileHover={{ y: -6 }}
+                  onClick={() => setSelectedProject(item)}
+                  className="rounded-3xl border border-slate-200 bg-white overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all"
+                >
+                  <div className="relative h-56 overflow-hidden bg-slate-100">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <div className="p-8">
+                    <span className={`inline-block mb-3 ${colors.bg} ${colors.text} text-[10px] font-bold px-3 py-1 rounded-full border ${colors.border}`}>
+                      {item.category}
+                    </span>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Project Detail Modal */}
+      {/* ========== CONTACT FORM SECTION (Dark Royal Blue) ========== */}
+      <section id="contact" className="w-full py-24 bg-gradient-to-br from-[#040e2c] via-[#091f5e] to-[#00469b] text-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#00caa4]/10 blur-[80px] rounded-full pointer-events-none" />
+            
+            <div className="text-center mb-10 relative z-10">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[#00caa4] text-[10px] font-black uppercase tracking-wider mb-3">
+                ¿Tienes un Proyecto?
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black mb-4">¿Listo para innovar?</h2>
+              <p className="text-blue-100/70 text-sm">Déjanos tus datos y un especialista técnico se comunicará contigo de inmediato.</p>
+            </div>
+            
+            <form className="space-y-6 relative z-10" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Nombre Completo</label>
+                  <input type="text" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="Juan Pérez" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Empresa (Opcional)</label>
+                  <input type="text" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="Mi Empresa S.A.C." />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Correo Electrónico</label>
+                <input type="email" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="correo@ejemplo.com" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Mensaje / Requerimiento</label>
+                <textarea rows={4} className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all resize-none placeholder:text-blue-200/30 text-sm" placeholder="Cuéntanos brevemente sobre tu proyecto..."></textarea>
+              </div>
+              
+              <button type="submit" className="w-full py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
+                Enviar Mensaje Seguro
+              </button>
+              
+              <p className="text-[10px] text-center text-blue-200/50 mt-4 flex items-center justify-center gap-1 font-bold">
+                <ShieldCheck className="w-4 h-4 text-[#00caa4]" /> Datos resguardados y cifrados de extremo a extremo.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== PROJECT DETAIL MODAL ========== */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -226,37 +264,36 @@ export default function SolutionsPage() {
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              initial={{ scale: 0.96, opacity: 0, y: 15 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              exit={{ scale: 0.96, opacity: 0, y: 15 }}
               onClick={(e) => e.stopPropagation()}
               className="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <div className="relative h-64 sm:h-80 w-full bg-slate-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-cover" />
                 <button
                   onClick={() => setSelectedProject(null)}
                   className="absolute top-4 right-4 bg-white/80 hover:bg-white text-slate-900 p-2 rounded-full backdrop-blur-md transition-all shadow-md"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
               <div className="p-8 md:p-10">
-                <span className={`inline-block mb-4 bg-${selectedProject.color}-50 text-${selectedProject.color}-700 text-sm font-bold px-4 py-1.5 rounded-full border border-${selectedProject.color}-200`}>
+                <span className={`inline-block mb-4 ${(colorMap[selectedProject.color] || colorMap.blue).bg} ${(colorMap[selectedProject.color] || colorMap.blue).text} text-xs font-bold px-4 py-1.5 rounded-full border ${(colorMap[selectedProject.color] || colorMap.blue).border}`}>
                   {selectedProject.category}
                 </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{selectedProject.title}</h2>
-                <p className="text-slate-600 leading-relaxed text-lg mb-8">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-4">{selectedProject.title}</h2>
+                <p className="text-slate-600 leading-relaxed text-xs md:text-sm mb-8">
                   {selectedProject.details}
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex items-start gap-4">
-                  <div className="bg-teal-100 p-3 rounded-2xl shrink-0 border border-teal-200">
+                  <div className="bg-teal-100 p-3 rounded-xl shrink-0 border border-teal-200">
                     <Code2 className="w-6 h-6 text-teal-700" />
                   </div>
                   <div>
-                    <h4 className="text-slate-900 font-bold mb-1 text-lg">Tecnología de Vanguardia</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">Implementado usando Next.js, React, TailwindCSS y bases de datos seguras con encriptación avanzada para asegurar el máximo rendimiento corporativo.</p>
+                    <h4 className="text-slate-900 font-bold mb-1 text-sm">Ingeniería Avanzada</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed">Implementamos arquitecturas robustas y modulares bajo Next.js y React. Toda la base de datos se cifra de forma local e internacional para garantizar la confidencialidad.</p>
                   </div>
                 </div>
               </div>

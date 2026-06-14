@@ -20,7 +20,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
-  padding-top: 72px;
 }
 
 /* Custom Scrollbar */
