@@ -1,144 +1,350 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Rocket, Code2, ShieldCheck, Zap, Users, TrendingUp } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import {
+  ArrowRight, Rocket, Code2, ShieldCheck, Zap, Users,
+  TrendingUp, Star, ChevronDown, Globe, Database,
+  TerminalSquare, Smartphone, MessageCircle
+} from "lucide-react";
 
-export default function Home() {
+/* ─── Animated Counter Hook ─── */
+function useCounter(end: number, duration = 2000) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!isInView) return;
+    let start = 0;
+    const step = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [isInView, end, duration]);
+
+  return { count, ref };
+}
+
+/* ─── FAQ Accordion Item ─── */
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
-      {/* Hero Section */}
-      <section className="relative w-full overflow-hidden px-4 pt-24 pb-20 md:pt-32 md:pb-32 flex flex-col items-center text-center border-b border-slate-200/60">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-blue-100/50 via-green-50/50 to-slate-50 -z-10" />
-        <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-blue-400/20 blur-[100px] rounded-full pointer-events-none -z-10" />
-        <div className="absolute top-40 left-1/4 w-[300px] h-[300px] bg-green-400/20 blur-[100px] rounded-full pointer-events-none -z-10" />
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm mb-8"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-sm font-semibold text-slate-700">Soluciones Tecnológicas & Crecimiento</span>
-        </motion.div>
+    <div className="border-b border-slate-200 last:border-0">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-6 text-left group">
+        <span className="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors pr-8">{q}</span>
+        <ChevronDown className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+      </button>
+      <motion.div
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="overflow-hidden"
+      >
+        <p className="pb-6 text-slate-600 leading-relaxed">{a}</p>
+      </motion.div>
+    </div>
+  );
+}
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900"
-        >
-          Impulsa tu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Potencial</span><br />
-          al Siguiente Nivel
-        </motion.h1>
+/* ─── Page ─── */
+export default function Home() {
+  const stats = [
+    useCounter(500),
+    useCounter(98),
+    useCounter(24),
+    useCounter(15),
+  ];
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-slate-600 max-w-2xl mb-10 leading-relaxed"
-        >
-          En Innovatech te ofrecemos las herramientas definitivas. Desde desarrollo de software a medida hasta crecimiento explosivo y orgánico en Instagram.
-        </motion.p>
+  return (
+    <div className="flex flex-col min-h-screen bg-white text-slate-900 font-sans">
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16"
-        >
-          <Link href="/crece">
-            <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 flex items-center justify-center gap-2">
-              <Rocket className="w-5 h-5 text-blue-400" />
-              Explorar Innovatech Crece
-            </button>
-          </Link>
-          <Link href="/solutions">
-            <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 border border-slate-200 transition-all shadow-sm flex items-center justify-center gap-2">
-              <Code2 className="w-5 h-5 text-green-500" />
-              Ver Innovatech Solutions
-            </button>
-          </Link>
-        </motion.div>
+      {/* ========== 1. HERO — Split Layout (BairesDev style) ========== */}
+      <section className="relative w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 md:pt-24 md:pb-28">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left — Copy */}
+            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-bold mb-6">
+                <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                Soluciones Tecnológicas & Crecimiento Digital
+              </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+                Lleva tu negocio al{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">
+                  siguiente nivel
+                </span>
+                <span className="text-blue-600">.</span>
+              </h1>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-xl mb-8">
+                Somos <strong className="text-slate-900">Innovatech</strong>. Desarrollamos software a medida, automatizamos procesos con IA y hacemos crecer tu presencia en Instagram con seguidores reales. Todo bajo un mismo techo.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/solutions">
+                  <button className="px-8 py-4 rounded-xl font-bold bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 flex items-center gap-2">
+                    Solicitar Cotización <ArrowRight className="w-5 h-5" />
+                  </button>
+                </Link>
+                <Link href="/crece">
+                  <button className="px-8 py-4 rounded-xl font-bold bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 transition-all shadow-sm flex items-center gap-2">
+                    <Rocket className="w-5 h-5 text-blue-500" /> Crecer en Instagram
+                  </button>
+                </Link>
+              </div>
+            </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="relative w-full max-w-5xl mx-auto rounded-3xl border border-slate-200 overflow-hidden shadow-2xl shadow-blue-900/5 bg-white p-2"
-        >
-          <div className="rounded-2xl overflow-hidden relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/hero.png" alt="Innovatech Dashboard Mockup" className="w-full h-auto object-cover" />
+            {/* Right — Dashboard Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10 border border-slate-200 bg-white p-2">
+                <div className="rounded-2xl overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/hero.png" alt="Innovatech Platform Dashboard" className="w-full h-auto" />
+                </div>
+              </div>
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 hidden md:flex items-center gap-3"
+              >
+                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-900">+340% crecimiento</p>
+                  <p className="text-xs text-slate-500">Promedio de nuestros clientes</p>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* Services Split Section */}
-      <section className="w-full max-w-7xl mx-auto px-4 py-24">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Todo lo que necesitas en un solo lugar</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">Dos divisiones especializadas trabajando en conjunto para escalar tu negocio de forma integral.</p>
+      {/* ========== 2. STATS BAR (Globant-style numbers) ========== */}
+      <section className="w-full bg-slate-900 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { label: "Clientes Satisfechos", suffix: "+", idx: 0 },
+              { label: "Tasa de Retención", suffix: "%", idx: 1 },
+              { label: "Soporte 24/7", suffix: "h", idx: 2 },
+              { label: "Proyectos Entregados", suffix: "+", idx: 3 },
+            ].map(({ label, suffix, idx }) => (
+              <div key={label}>
+                <p className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+                  <span ref={stats[idx].ref}>{stats[idx].count}</span>
+                  <span className="text-blue-400">{suffix}</span>
+                </p>
+                <p className="text-sm text-slate-400 mt-2 font-medium">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          
-          {/* Innovatech Crece Card */}
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 md:p-12 shadow-xl shadow-slate-200/50"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 blur-[80px] rounded-full group-hover:bg-blue-100 transition-all duration-500" />
-            <div className="relative z-10">
-              <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 border border-blue-100 shadow-sm">
-                <Rocket className="w-7 h-7 text-blue-600" />
+      {/* ========== 3. TRUST LOGOS (Globant pattern) ========== */}
+      <section className="w-full py-16 bg-slate-50/50 border-b border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-8">
+            Tecnologías que dominamos
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60">
+            {["Next.js", "React", "Node.js", "PostgreSQL", "Python", "AWS", "Tailwind", "Prisma"].map(tech => (
+              <span key={tech} className="text-xl md:text-2xl font-extrabold text-slate-400 hover:text-slate-700 transition-colors cursor-default">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== 4. BENTO SERVICES GRID (Odoo / Globant) ========== */}
+      <section className="w-full py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-3">Nuestras Divisiones</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
+              Todo lo que tu negocio necesita
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Dos divisiones especializadas trabajando en conjunto para escalar tu empresa de forma integral.
+            </p>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Big card — Crece */}
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 to-blue-800 p-10 md:p-14 text-white shadow-2xl"
+            >
+              <div className="absolute top-0 right-0 w-80 h-80 bg-blue-400/20 blur-[100px] rounded-full" />
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/20">
+                  <Rocket className="w-7 h-7" />
+                </div>
+                <h3 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">
+                  Innovatech Crece
+                </h3>
+                <p className="text-blue-100 text-lg leading-relaxed max-w-xl mb-8">
+                  Potencia tu perfil de Instagram con seguidores reales, likes orgánicos y un crecimiento metódico y seguro. Sin bots, sin riesgo de Shadowban.
+                </p>
+                <Link href="/crece">
+                  <button className="px-6 py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+                    Ver Paquetes <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
               </div>
-              <h2 className="text-3xl font-bold mb-4 text-slate-900">Innovatech <span className="text-blue-600">Crece</span></h2>
-              <p className="text-slate-600 mb-8 leading-relaxed">
-                Potencia tu perfil hoy mismo. Obtén seguidores de calidad, likes y un crecimiento orgánico-simulado con 100% de seguridad y sin riesgo de Shadowban.
-              </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center text-slate-700 font-medium gap-3"><ShieldCheck className="text-blue-500 w-5 h-5 bg-blue-50 rounded-full" /> Seguro y Efectivo</li>
-                <li className="flex items-center text-slate-700 font-medium gap-3"><TrendingUp className="text-blue-500 w-5 h-5 bg-blue-50 rounded-full" /> Crecimiento Rápido</li>
-                <li className="flex items-center text-slate-700 font-medium gap-3"><Users className="text-blue-500 w-5 h-5 bg-blue-50 rounded-full" /> Seguidores de Calidad</li>
-              </ul>
-              <Link href="/crece">
-                <button className="w-full py-4 rounded-xl font-bold bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white transition-all">
-                  Ver Paquetes de Crecimiento
-                </button>
-              </Link>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Innovatech Solutions Card */}
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 md:p-12 shadow-xl shadow-slate-200/50"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 blur-[80px] rounded-full group-hover:bg-teal-100 transition-all duration-500" />
-            <div className="relative z-10">
-              <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 border border-teal-100 shadow-sm">
-                <Code2 className="w-7 h-7 text-teal-600" />
+            {/* Small cards */}
+            {[
+              { icon: Globe, title: "Desarrollo Web", desc: "Sitios rápidos, modernos y que convierten visitantes en clientes." },
+              { icon: Database, title: "Sistemas ERP/CRM", desc: "Software de gestión adaptado a tus procesos internos." },
+              { icon: ShieldCheck, title: "Ciberseguridad", desc: "Auditorías, pentesting y protección contra amenazas." },
+              { icon: Smartphone, title: "Apps Móviles", desc: "Aplicaciones nativas e híbridas para iOS y Android." },
+            ].map(({ icon: Icon, title, desc }) => (
+              <motion.div key={title} whileHover={{ y: -5 }} className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-lg shadow-slate-200/30 hover:shadow-xl transition-all">
+                <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-5 border border-teal-100">
+                  <Icon className="w-6 h-6 text-teal-600" />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-2">{title}</h4>
+                <p className="text-slate-600 text-sm leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+
+            {/* Big card — Solutions */}
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-600 to-teal-800 p-10 md:p-14 text-white shadow-2xl"
+            >
+              <div className="absolute top-0 right-0 w-80 h-80 bg-teal-400/20 blur-[100px] rounded-full" />
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/20">
+                  <Code2 className="w-7 h-7" />
+                </div>
+                <h3 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">
+                  Innovatech Solutions
+                </h3>
+                <p className="text-teal-100 text-lg leading-relaxed max-w-xl mb-8">
+                  Desarrollo de software a medida, automatización con IA, ciberseguridad y despliegue en la nube. Soluciones completas para empresas que quieren escalar.
+                </p>
+                <Link href="/solutions">
+                  <button className="px-6 py-3 bg-white text-teal-700 font-bold rounded-xl hover:bg-teal-50 transition-all shadow-lg flex items-center gap-2">
+                    Conocer Servicios <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
               </div>
-              <h2 className="text-3xl font-bold mb-4 text-slate-900">Innovatech <span className="text-teal-600">Solutions</span></h2>
-              <p className="text-slate-600 mb-8 leading-relaxed">
-                Soluciones tecnológicas a medida para tu empresa. Desarrollo de software, webs modernas, seguridad informática y automatización de procesos.
-              </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center text-slate-700 font-medium gap-3"><Zap className="text-teal-500 w-5 h-5 bg-teal-50 rounded-full" /> Desarrollo a Medida</li>
-                <li className="flex items-center text-slate-700 font-medium gap-3"><ShieldCheck className="text-teal-500 w-5 h-5 bg-teal-50 rounded-full" /> Ciberseguridad Integrada</li>
-                <li className="flex items-center text-slate-700 font-medium gap-3"><Code2 className="text-teal-500 w-5 h-5 bg-teal-50 rounded-full" /> Modernidad y Eficiencia</li>
-              </ul>
-              <Link href="/solutions">
-                <button className="w-full py-4 rounded-xl font-bold bg-teal-50 text-teal-700 hover:bg-teal-600 hover:text-white transition-all">
-                  Conocer Nuestros Servicios
-                </button>
-              </Link>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
+      {/* ========== 5. TESTIMONIALS (Social Proof) ========== */}
+      <section className="w-full py-24 bg-slate-50 border-t border-b border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-3">Testimonios</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Lo que dicen nuestros clientes
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Carlos M.",
+                role: "CEO, AgriTech Perú",
+                text: "Innovatech nos desarrolló un ERP a medida que nos ahorró 5 horas diarias en gestión administrativa. La inversión se recuperó en 2 meses.",
+              },
+              {
+                name: "Lucía R.",
+                role: "Influencer, @luciafitperu",
+                text: "Pasé de 800 seguidores a 3,200 en menos de un mes con Innovatech Crece. Todos reales y activos. Me empezaron a llegar colaboraciones de marcas.",
+              },
+              {
+                name: "Roberto S.",
+                role: "Gerente de TI, Logística Express",
+                text: "Su equipo de ciberseguridad detectó vulnerabilidades críticas que otros pasaron por alto. Nos sentimos mucho más seguros ahora.",
+              },
+            ].map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg shadow-slate-200/30"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, j) => <Star key={j} className="w-5 h-5 text-yellow-400 fill-yellow-400" />)}
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-6 italic">&ldquo;{t.text}&rdquo;</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-white font-bold text-sm">
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 text-sm">{t.name}</p>
+                    <p className="text-xs text-slate-500">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== 6. FAQ SECTION ========== */}
+      <section className="w-full py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-3">Preguntas Frecuentes</p>
+            <h2 className="text-4xl font-extrabold tracking-tight text-slate-900">
+              ¿Tienes dudas? Te las resolvemos
+            </h2>
+          </div>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 md:p-8">
+            <FaqItem q="¿Es seguro comprar seguidores de Instagram?" a="Sí. No usamos bots. Nuestro software genera tráfico orgánico-simulado que Instagram reconoce como interacción natural. Jamás te pedimos tu contraseña." />
+            <FaqItem q="¿En cuánto tiempo veo resultados con Innovatech Crece?" a="Dependiendo del paquete, desde 24 horas (paquetes pequeños) hasta 1-2 semanas (paquetes grandes de 2000 seguidores para un crecimiento gradual y natural)." />
+            <FaqItem q="¿Qué tipo de software desarrollan?" a="Desarrollamos sistemas a medida (ERP, CRM), aplicaciones web y móviles, tiendas e-commerce, dashboards gerenciales y todo tipo de automatización con IA." />
+            <FaqItem q="¿Ofrecen servicios de ciberseguridad?" a="Sí. Realizamos auditorías de seguridad, pentesting, monitoreo de amenazas y protección de datos para mantener tu infraestructura a salvo de hackers." />
+            <FaqItem q="¿Qué métodos de pago aceptan?" a="Para Innovatech Crece aceptamos Yape, Plin y transferencia bancaria. Para proyectos de software, trabajamos con pagos fraccionados por hitos de entrega." />
+          </div>
+        </div>
+      </section>
+
+      {/* ========== 7. FINAL CTA ========== */}
+      <section className="w-full py-24 bg-slate-900 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[150px] rounded-full pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+            ¿Listo para transformar tu negocio?
+          </h2>
+          <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Ya sea que necesites crecer en redes sociales o construir el software que tu empresa merece, estamos aquí para ayudarte.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/solutions#contact">
+              <button className="px-8 py-4 rounded-xl font-bold bg-white text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 justify-center">
+                <MessageCircle className="w-5 h-5 text-blue-600" /> Contáctanos Ahora
+              </button>
+            </Link>
+            <Link href="https://wa.me/51921831358" target="_blank">
+              <button className="px-8 py-4 rounded-xl font-bold bg-green-500 text-white hover:bg-green-600 transition-all shadow-lg flex items-center gap-2 justify-center">
+                <Zap className="w-5 h-5" /> WhatsApp Directo
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
