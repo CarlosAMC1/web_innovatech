@@ -1,112 +1,218 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Rocket, CheckCircle2, ShieldCheck, Camera, Zap } from "lucide-react";
+import { Rocket, CheckCircle2, ShieldCheck, Camera, Search, CreditCard, TrendingUp, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 const packages = [
   {
-    title: "Empuje Inicial",
+    title: '"vamo a probar"',
+    price: "S/ 30",
+    followers: "100",
+    features: [
+      "100 Seguidores de alta calidad",
+      "Entrega Rápida (24h)",
+      "Garantía de reposición",
+    ],
+    highlighted: false,
+    gradient: "from-blue-600/20 to-blue-900/40",
+    borderColor: "border-blue-500/30",
+  },
+  {
+    title: '"empecemos suave"',
     price: "S/ 60",
     followers: "500",
     features: [
-      "¡REGALO DE LIKES EN TU ÚLTIMA FOTO!",
-      "Crecimiento Orgánico-Simulado",
-      "Entrega Rápida",
-      "Garantía de Reposición",
+      "500 Seguidores premium",
+      "Mejora tu visibilidad",
+      "Regalo de Likes",
     ],
     highlighted: false,
+    gradient: "from-blue-500/30 to-indigo-900/40",
+    borderColor: "border-indigo-500/40",
   },
   {
-    title: "Emprendedor Total",
+    title: '"tamo fino"',
     price: "S/ 100",
+    followers: "800",
+    features: [
+      "800 Seguidores de alta calidad",
+      "Método orgánico-simulado",
+      "Atención personalizada",
+    ],
+    highlighted: false,
+    gradient: "from-teal-600/30 to-blue-900/40",
+    borderColor: "border-teal-500/40",
+  },
+  {
+    title: '"bien parado"',
+    price: "S/ 110",
     followers: "1000",
     features: [
-      "+REGALO: 200 Likes y 50 Comentarios",
-      "+30 DÍAS DE GARANTÍA",
-      "Aumenta tu Confianza y Ventas",
-      "Resultados Visibles",
-      "Pago Seguro",
-      "Atención Personalizada",
+      "1000 Seguidores premium",
+      "Crecimiento acelerado-orgánico",
+      "Mejor valor/precio",
     ],
     highlighted: true,
+    gradient: "from-green-500/40 to-blue-900/50",
+    borderColor: "border-green-500",
   },
+  {
+    title: '"eso es opulencia total"',
+    price: "S/ 199",
+    followers: "2000",
+    features: [
+      "2000 Seguidores de alta calidad",
+      "Soporte prioritario VIP",
+      "Plan de crecimiento personalizado",
+    ],
+    highlighted: false,
+    gradient: "from-yellow-500/30 to-amber-900/40",
+    borderColor: "border-yellow-500/50",
+  },
+];
+
+const steps = [
+  {
+    icon: Search,
+    title: "1. Elige y Contacta",
+    desc: "Selecciona el pack que mejor se adapte a tu objetivo y escríbenos por WhatsApp."
+  },
+  {
+    icon: Camera,
+    title: "2. Pásanos tu Usuario",
+    desc: "Solo necesitamos tu @usuario o el link de tu perfil de Instagram. ¡Nunca te pediremos tu contraseña!"
+  },
+  {
+    icon: CreditCard,
+    title: "3. Confirma tu Pago",
+    desc: "Envíanos el voucher de pago mediante transferencia o billetera digital (Yape/Plin)."
+  },
+  {
+    icon: TrendingUp,
+    title: "4. ¡Magia en Acción!",
+    desc: "Nuestro software comienza a enviarte seguidores reales (no bots) de forma gradual según el pack elegido."
+  }
 ];
 
 export default function CrecePage() {
   return (
-    <div className="min-h-screen bg-[#050510]">
+    <div className="min-h-screen bg-[#020b18] text-gray-100 font-sans">
       {/* Hero Header */}
-      <section className="relative pt-16 pb-12 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-96 bg-blue-600/20 blur-[120px] -z-10 rounded-full" />
+      <section className="relative pt-20 pb-16 overflow-hidden border-b border-white/5">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] -z-10 rounded-full" />
         <div className="max-w-7xl mx-auto px-4 text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-blue-500/20 rounded-full mb-6 border border-blue-500/30"
           >
-            <Camera className="w-10 h-10 text-blue-400" />
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6">
+              Servicio de Crecimiento Instagram
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
+              Alcanza la cima de <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-green-400">
+                Instagram Hoy
+              </span>
+            </h1>
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Aumenta tu credibilidad y atrae más clientes con seguidores reales y un crecimiento metódico y seguro.
+            </p>
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold mb-4"
-          >
-            Potencia tu Perfil <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">Hoy Mismo</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-gray-400 text-lg max-w-2xl mx-auto"
-          >
-            Únete a cientos de perfiles que ya crecieron. ¿Qué esperas para brillar en Instagram?
-          </motion.p>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section className="max-w-7xl mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white flex items-center justify-center gap-3">
+            <HelpCircle className="text-blue-400 w-8 h-8" />
+            ¿Cómo funciona?
+          </h2>
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            El proceso es 100% transparente, seguro y no pone en riesgo tu cuenta.
+          </p>
+        </div>
+        
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.15 }}
+              className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.04] transition-colors"
+            >
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
+                <step.icon className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{step.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Packages Section */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4">Elige tu Pack Ideal</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Todos nuestros planes incluyen garantía de reposición. Dale a tu perfil el impulso que merece.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {packages.map((pkg, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-              className={`relative rounded-3xl border ${pkg.highlighted ? 'border-green-500/50 bg-gradient-to-b from-blue-900/40 to-black' : 'border-white/10 bg-white/5'} p-8 overflow-hidden flex flex-col h-full`}
+              whileHover={{ y: -5 }}
+              className={`relative rounded-3xl border bg-gradient-to-b ${pkg.gradient} ${pkg.borderColor} p-8 flex flex-col h-full`}
             >
               {pkg.highlighted && (
-                <div className="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-4 py-1 rounded-bl-xl z-10">
+                <div className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 bg-green-500 text-black text-sm font-bold px-4 py-1 rounded-full z-10 shadow-lg">
                   MÁS POPULAR
                 </div>
               )}
-              <div className="mb-6">
-                <span className="text-sm text-blue-400 font-semibold tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full">Paquete</span>
-                <h3 className="text-2xl font-bold mt-4">{pkg.title}</h3>
-                <div className="mt-4 flex items-baseline">
-                  <span className="text-5xl font-extrabold">{pkg.price}</span>
+              
+              <div className="mb-6 border-b border-white/10 pb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Rocket className={`w-5 h-5 ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`} />
+                  <span className="text-sm font-semibold tracking-wide text-gray-300 uppercase">Pack</span>
                 </div>
-                <div className="mt-4 text-3xl font-bold text-green-400">
-                  {pkg.followers} <span className="text-lg text-gray-300">Seguidores</span>
+                <h3 className="text-2xl font-bold text-white leading-tight mb-4">{pkg.title}</h3>
+                
+                <div className="flex items-end gap-2 mb-2">
+                  <span className={`text-5xl font-black ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`}>
+                    {pkg.followers}
+                  </span>
+                  <span className="text-gray-400 font-medium mb-1">Seguidores</span>
+                </div>
+                
+                <div className="inline-block mt-3 bg-white/10 px-4 py-2 rounded-lg backdrop-blur-sm border border-white/5">
+                  <span className="text-sm text-gray-400 mr-2">¡Solo!</span>
+                  <span className="text-2xl font-bold text-white">{pkg.price}</span>
                 </div>
               </div>
               
               <ul className="space-y-4 mb-8 flex-1">
                 {pkg.features.map((feat, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
-                    <span className="text-gray-300">{feat}</span>
+                  <li key={i} className="flex items-start gap-3 text-sm">
+                    <CheckCircle2 className={`w-5 h-5 shrink-0 ${pkg.highlighted ? 'text-green-400' : 'text-blue-400'}`} />
+                    <span className="text-gray-200 font-medium">{feat}</span>
                   </li>
                 ))}
               </ul>
 
-              <Link href="https://wa.me/51921831358" target="_blank" className="w-full">
-                <button className={`w-full py-4 rounded-xl font-bold transition-all flex justify-center items-center gap-2 ${pkg.highlighted ? 'bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 shadow-[0_0_20px_rgba(34,197,94,0.3)] text-white' : 'bg-white/10 hover:bg-white/20 text-white'}`}>
-                  ¡Chatea con nosotros! <Zap className="w-5 h-5" />
+              <Link href="https://wa.me/51921831358" target="_blank" className="w-full mt-auto">
+                <button className={`w-full py-4 rounded-xl font-bold transition-all flex justify-center items-center gap-2 ${
+                  pkg.highlighted 
+                    ? 'bg-green-500 hover:bg-green-400 text-black shadow-[0_0_20px_rgba(34,197,94,0.3)]' 
+                    : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}>
+                  WhatsApp: 921 831 358
                 </button>
               </Link>
             </motion.div>
@@ -114,19 +220,17 @@ export default function CrecePage() {
         </div>
       </section>
 
-      {/* Trust Section */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="bg-gradient-to-r from-blue-900/30 to-green-900/30 rounded-3xl p-8 md:p-12 border border-white/10 text-center">
-          <ShieldCheck className="w-16 h-16 text-green-400 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-4">Método Innovatech: Seguro y Efectivo</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-            Nuestro crecimiento orgánico-simulado te asegura cero riesgo de Shadowban, entrega gradual y natural, y garantía de satisfacción total. Impulsa tu marca con tranquilidad.
+      {/* Security Trust Section */}
+      <section className="max-w-4xl mx-auto px-4 py-20">
+        <div className="bg-[#0a1628] rounded-3xl p-8 md:p-12 border border-blue-500/20 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[80px] rounded-full" />
+          <ShieldCheck className="w-16 h-16 text-blue-400 mx-auto mb-6 relative z-10" />
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white relative z-10">Tu cuenta siempre segura</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed relative z-10">
+            Nuestros procesos de crecimiento están diseñados para respetar los límites de Instagram. 
+            <strong> Jamás te pediremos contraseñas.</strong> Nuestro software inyecta tráfico orgánico-simulado 
+            que la plataforma reconoce como natural. ¡Crecemos juntos, sin riesgos!
           </p>
-          <Link href="https://wa.me/51921831358" target="_blank">
-            <button className="px-8 py-4 rounded-xl font-medium bg-white text-black hover:bg-gray-200 transition-all">
-              Consultar por WhatsApp (+51 921 831 358)
-            </button>
-          </Link>
         </div>
       </section>
     </div>
