@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { TrendingUp, Users, ShoppingCart, MessageCircle, Globe, Camera } from "lucide-react";
 
 // Panel de ejemplo hecho en código con la marca Innovatech (reemplaza la imagen del hero).
@@ -60,7 +60,7 @@ export default function HeroDashboard() {
         {/* KPIs */}
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
           {kpis.map((k, i) => (
-            <motion.div
+            <m.div
               key={k.label}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ export default function HeroDashboard() {
               <p className="text-[9px] sm:text-[10px] text-blue-100/60 font-semibold leading-tight">{k.label}</p>
               <p className="text-sm sm:text-lg font-black tracking-tight leading-tight">{k.value}</p>
               <p className="text-[9px] sm:text-[10px] font-bold text-emerald-400">{k.delta}</p>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -92,14 +92,14 @@ export default function HeroDashboard() {
               {[27, 55, 82].map((y) => (
                 <line key={y} x1="0" x2="320" y1={y} y2={y} stroke="white" strokeOpacity="0.06" />
               ))}
-              <motion.path
+              <m.path
                 d={area}
                 fill="url(#heroArea)"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9, duration: 0.6 }}
               />
-              <motion.path
+              <m.path
                 d={line}
                 fill="none"
                 stroke="#00caa4"
@@ -118,7 +118,7 @@ export default function HeroDashboard() {
             <p className="text-[10px] font-bold text-blue-100/70 mb-2">Últimos leads</p>
             <ul className="space-y-2">
               {leads.map((l, i) => (
-                <motion.li
+                <m.li
                   key={l.name}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -130,7 +130,7 @@ export default function HeroDashboard() {
                   </span>
                   <span className="text-[11px] font-bold flex-1 truncate">{l.name}</span>
                   <span className="text-[9px] text-blue-100/50">{l.channel}</span>
-                </motion.li>
+                </m.li>
               ))}
             </ul>
           </div>

@@ -36,3 +36,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* Animaciones de entrada en CSS: corren sin esperar a JavaScript,
+   así el contenido principal se ve apenas llega el HTML. */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float-up {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(var(--drift, 0px), -120px); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@theme {
+  --animate-fade-up: fade-up 0.6s ease-out both;
+  --animate-fade-left: fade-left 0.7s ease-out both;
+  --animate-fade-right: fade-right 0.8s ease-out 0.15s both;
+  --animate-float-up: float-up var(--duration, 16s) ease-in-out infinite;
+  --animate-bob: bob 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
