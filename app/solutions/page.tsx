@@ -9,9 +9,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
-import crmImg from "@/public/images/crm.png";
-import erpImg from "@/public/images/erp.png";
-import ecommerceImg from "@/public/images/ecommerce.png";
+import { CrmMockup, ErpMockup, EcommerceMockup } from "@/components/Mockups";
 import aiImg from "@/public/images/ai_automation.png";
 
 const services = [
@@ -52,7 +50,7 @@ const portfolioItems = [
     id: "crm",
     title: "Sistemas de Gestión de Leads (CRM)",
     category: "CRM & CHAT",
-    image: crmImg,
+    visual: (title: string, className: string) => <CrmMockup title={title} className={`w-full h-full ${className}`} />,
     color: "blue",
     description: "Plataformas de atención al cliente (Omnicanalidad) con interfaces modernas y de alta respuesta para tus asesores de ventas.",
     details: "Desarrollamos CRMs personalizados que unifican WhatsApp, correos y redes sociales en una sola bandeja. Incorporamos analíticas de tiempo de respuesta, chatbots impulsados por IA para respuestas automáticas y una interfaz limpia que reduce la fatiga visual de los asesores que trabajan todo el día frente a la pantalla."
@@ -61,7 +59,7 @@ const portfolioItems = [
     id: "erp",
     title: "Intranet ERP Empresarial",
     category: "INTRANET ERP",
-    image: erpImg,
+    visual: (title: string, className: string) => <ErpMockup title={title} className={`w-full h-full ${className}`} />,
     color: "teal",
     description: "Dashboards gerenciales con métricas en tiempo real, filtros detallados y exportación de datos para la toma de decisiones empresariales.",
     details: "Un sistema integral de planificación de recursos (ERP) diseñado a la medida de los procesos internos. Incluye módulos de recursos humanos, control de inventario, facturación electrónica y un dashboard gerencial avanzado que cruza datos de diferentes departamentos para generar reportes predictivos y en tiempo real."
@@ -70,7 +68,7 @@ const portfolioItems = [
     id: "ecommerce",
     title: "Tiendas Virtuales Premium",
     category: "E-COMMERCE",
-    image: ecommerceImg,
+    visual: (title: string, className: string) => <EcommerceMockup title={title} className={`w-full h-full ${className}`} />,
     color: "green",
     description: "Páginas de ventas de alto impacto visual diseñadas para generar confianza, retener al cliente y maximizar la conversión.",
     details: "Tiendas online rápidas construidas con Next.js y optimizadas para celulares. Integran pasarelas de pago seguras locales e internacionales, recuperación de carritos abandonados, gestión de cupones y un panel administrativo intuitivo para gestionar miles de productos sin complicaciones técnicas."
@@ -79,7 +77,9 @@ const portfolioItems = [
     id: "ai",
     title: "Automatización & Agentes Inteligentes IA",
     category: "AUTOMATIZACIÓN IA",
-    image: aiImg,
+    visual: (title: string, className: string) => (
+      <Image src={aiImg} alt={title} fill sizes="(min-width: 768px) 768px, 100vw" placeholder="blur" className={`object-cover ${className}`} />
+    ),
     color: "teal",
     description: "Integración de modelos LLM y agentes de inteligencia artificial para optimizar soporte al cliente, análisis financiero y flujos internos.",
     details: "Desarrollamos agentes cognitivos de IA capaces de resolver tickets de soporte, clasificar leads y automatizar tareas administrativas complejas. Conectamos modelos de lenguaje avanzados con tus bases de datos mediante APIs seguras para que obtengas respuestas automáticas basadas en la realidad de tu empresa."
@@ -344,7 +344,7 @@ export default function SolutionsPage() {
                   className="rounded-3xl border border-slate-200 bg-white overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all"
                 >
                   <div className="relative h-56 overflow-hidden bg-slate-100">
-                    <Image src={item.image} alt={`Ejemplo ilustrativo: ${item.title}`} fill sizes="(min-width: 768px) 512px, 100vw" placeholder="blur" className="object-cover group-hover:scale-102 transition-transform duration-500" />
+                    {item.visual(`Ejemplo ilustrativo: ${item.title}`, "group-hover:scale-102 transition-transform duration-500")}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   <div className="p-8">
@@ -406,7 +406,7 @@ export default function SolutionsPage() {
               className="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <div className="relative h-64 sm:h-80 w-full bg-slate-100">
-                <Image src={selectedProject.image} alt={`Ejemplo ilustrativo: ${selectedProject.title}`} fill sizes="(min-width: 768px) 768px, 100vw" placeholder="blur" className="object-cover" />
+                {selectedProject.visual(`Ejemplo ilustrativo: ${selectedProject.title}`, "")}
                 <button
                   onClick={() => setSelectedProject(null)}
                   aria-label="Cerrar"

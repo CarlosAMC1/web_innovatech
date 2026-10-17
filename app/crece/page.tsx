@@ -8,9 +8,8 @@ import {
   Check, Sparkles, Activity, Users, RefreshCw
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { whatsappLink } from "@/lib/site";
-import growthImg from "@/public/images/instagram_growth.png";
+import { GrowthMockup } from "@/components/Mockups";
 
 const packages = [
   {
@@ -321,7 +320,7 @@ export default function CrecePage() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950/80 p-2 cursor-pointer"
                 >
-                  <Image src={growthImg} alt="Ilustración de crecimiento en Instagram" preload sizes="(min-width: 1024px) 450px, 100vw" placeholder="blur" className="w-full h-auto rounded-2xl" />
+                  <GrowthMockup title="Ilustración de crecimiento de seguidores de un perfil" className="block w-full h-auto rounded-2xl" />
                 </motion.div>
               </div>
             </motion.div>

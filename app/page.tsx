@@ -2,12 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { whatsappLink } from "@/lib/site";
 import HeroDashboard from "@/components/HeroDashboard";
-import crmImg from "@/public/images/crm.png";
-import erpImg from "@/public/images/erp.png";
-import ecommerceImg from "@/public/images/ecommerce.png";
+import { CrmMockup, ErpMockup, EcommerceMockup } from "@/components/Mockups";
 import { useRef, useEffect, useState } from "react";
 import {
   ArrowRight, Rocket, Code2, ShieldCheck, Zap, TrendingUp, Star, ChevronDown, Globe, Database,
@@ -86,7 +83,7 @@ export default function Home() {
       id: "crm",
       title: "Sistemas de Gestión de Leads (CRM)",
       category: "CRM & CHAT",
-      image: crmImg,
+      Mockup: CrmMockup,
       color: "#00469b",
       description: "Plataformas de atención al cliente multicanal con interfaces modernas e integración de WhatsApp para asesores de ventas.",
       features: [
@@ -99,7 +96,7 @@ export default function Home() {
       id: "erp",
       title: "Intranet ERP Empresarial",
       category: "INTRANET ERP",
-      image: erpImg,
+      Mockup: ErpMockup,
       color: "#00caa4",
       description: "Dashboards gerenciales con métricas en tiempo real, filtros detallados y exportación de datos para la toma de decisiones corporativas.",
       features: [
@@ -112,7 +109,7 @@ export default function Home() {
       id: "ecommerce",
       title: "Tiendas Virtuales Premium",
       category: "E-COMMERCE",
-      image: ecommerceImg,
+      Mockup: EcommerceMockup,
       color: "#10b981",
       description: "Páginas de venta de alta conversión y velocidad de carga diseñadas bajo el framework de Next.js.",
       features: [
@@ -442,7 +439,7 @@ export default function Home() {
 
                 {/* Right col - Mockup Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
-                  <Image src={activeProject.image} alt={`Ejemplo ilustrativo: ${activeProject.title}`} sizes="(min-width: 1024px) 420px, 100vw" placeholder="blur" className="w-full h-auto rounded-lg" />
+                  <activeProject.Mockup title={`Ejemplo ilustrativo: ${activeProject.title}`} className="block w-full h-auto rounded-lg" />
                 </div>
               </div>
             </div>
