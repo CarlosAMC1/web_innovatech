@@ -1,11 +1,17 @@
-import { NextResponse, after } from "next/server";
+import { NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/db";
-import { notifyNewLead } from "@/lib/notify";
+import { saveLead } from "@/lib/leads";
+import { isRateLimited } from "@/lib/rate-limit";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "El nombre es muy corto").max(100),
   email: z.email("Correo electrónico inválido").max(200),
+  phone: z
+    .string()
+    .trim()
+    .max(20)
+    .refine((v) => v === "" || v.replace(/\D/g, "").length >= 9, "Número de WhatsApp inválido")
+    .optional(),
   company: z.string().trim().max(100).optional(),
   message: z.string().trim().min(10, "El mensaje debe tener al menos 10 caracteres").max(1000),
   consent: z.literal(true, "Debes aceptar la política de privacidad"),
@@ -13,22 +19,8 @@ const contactSchema = z.object({
   website: z.string().optional(),
 });
 
-// Límite simple en memoria: 5 envíos cada 10 minutos por IP.
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS = 5;
-const hits = new Map<string, number[]>();
-
-function isRateLimited(ip: string) {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  return recent.length > MAX_REQUESTS;
-}
-
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (isRateLimited(ip)) {
+  if (isRateLimited(req, "contact")) {
     return NextResponse.json(
       { error: "Demasiados envíos. Inténtalo en unos minutos o escríbenos por WhatsApp." },
       { status: 429 }
@@ -51,22 +43,14 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, company, message, website } = result.data;
+  const { name, email, phone, company, message, website } = result.data;
   if (website) {
     // Bot detectado: respondemos como si todo fuera bien, pero no guardamos nada.
     return NextResponse.json({ success: true }, { status: 201 });
   }
 
   try {
-    const lead = await prisma.lead.create({
-      data: {
-        name,
-        email,
-        message: company ? `Empresa: ${company}\n\n${message}` : message,
-      },
-    });
-    // El aviso por correo se envía después de responder, para no hacer esperar al visitante.
-    after(() => notifyNewLead({ name, email, company, message }));
+    const lead = await saveLead({ source: "contacto", name, email, phone: phone || undefined, company, message, page: "/solutions" });
     return NextResponse.json({ success: true, leadId: lead.id }, { status: 201 });
   } catch (error) {
     console.error("Error saving contact:", error);

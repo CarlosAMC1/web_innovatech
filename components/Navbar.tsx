@@ -3,16 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { m, AnimatePresence } from "framer-motion";
-import { Menu, X, Rocket, Code2, ChevronDown, Globe, Database, ShieldCheck, Smartphone, Server, TerminalSquare, ArrowRight, Sparkles } from "lucide-react";
+import { Menu, X, Rocket, Code2, ChevronDown, ArrowRight, Sparkles, ClipboardList, LayoutGrid } from "lucide-react";
+import { services } from "@/lib/services";
 
-const servicesItems = [
-  { icon: Globe, name: "Desarrollo Web", desc: "Sitios rápidos, modernos y optimizados para SEO.", href: "/solutions" },
-  { icon: Smartphone, name: "Apps Móviles", desc: "Aplicaciones nativas e híbridas iOS/Android.", href: "/solutions" },
-  { icon: Database, name: "Sistemas ERP/CRM", desc: "Sistemas a medida adaptados a tu gestión interna.", href: "/solutions" },
-  { icon: ShieldCheck, name: "Ciberseguridad", desc: "Auditorías de seguridad, pentesting y protección.", href: "/solutions" },
-  { icon: Server, name: "Cloud & DevOps", desc: "Despliegue escalable en AWS, Docker y la nube.", href: "/solutions" },
-  { icon: TerminalSquare, name: "Automatización con IA", desc: "Procesos y agentes de IA para ahorrar costos.", href: "/solutions" },
-];
+const servicesItems = services.map((s) => ({ icon: s.icon, name: s.name, desc: s.short, href: `/servicios/${s.slug}` }));
 
 const techItems = [
   { name: "Next.js", desc: "React Framework" },
@@ -37,7 +31,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed w-full z-50 top-0 start-0 transition-all duration-300 ${
+    <nav className={`print:hidden fixed w-full z-50 top-0 start-0 transition-all duration-300 ${
       scrolled 
         ? "bg-[#00469b]/95 backdrop-blur-lg shadow-xl shadow-blue-900/10 border-b border-[#00caa4]/20 py-3" 
         : "bg-transparent py-5"
@@ -127,8 +121,8 @@ export default function Navbar() {
                           </div>
                         ))}
                       </div>
-                      <Link href="/solutions" className="mt-8 inline-flex items-center gap-1.5 text-xs font-bold text-[#00469b] hover:text-[#00caa4] transition-colors">
-                        Ver soluciones de software <ArrowRight className="w-3.5 h-3.5" />
+                      <Link href="/servicios" onClick={() => setActiveDropdown(null)} className="mt-8 inline-flex items-center gap-1.5 text-xs font-bold text-[#00469b] hover:text-[#00caa4] transition-colors">
+                        Ver todos los servicios <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
 
@@ -150,7 +144,7 @@ export default function Navbar() {
                         <Link href="/crece" className="block w-full text-center py-2.5 px-4 bg-[#00469b] hover:bg-[#003c85] text-white text-xs font-bold rounded-xl transition-all shadow-md">
                           Ver Planes Crece
                         </Link>
-                        <Link href="/solutions#contact" className="block w-full text-center py-2.5 px-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-sm">
+                        <Link href="/cotizar" onClick={() => setActiveDropdown(null)} className="block w-full text-center py-2.5 px-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold rounded-xl transition-all shadow-sm">
                           Cotizar Software
                         </Link>
                       </div>
@@ -171,10 +165,11 @@ export default function Navbar() {
 
         {/* Right CTA */}
         <div className="flex items-center gap-3">
-          <Link href="/solutions#contact" className="hidden sm:block">
-            <button className="px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl bg-white text-[#00469b] hover:bg-[#00caa4] hover:text-white transition-all shadow-md">
-              Contáctanos
-            </button>
+          <Link
+            href="/cotizar"
+            className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl bg-white text-[#00469b] hover:bg-[#00caa4] hover:text-white transition-all shadow-md"
+          >
+            <ClipboardList className="w-4 h-4" /> Cotizar proyecto
           </Link>
           <button
             type="button"
@@ -205,6 +200,12 @@ export default function Navbar() {
               
               <div className="border-t border-white/10 my-2 pt-2">
                 <p className="px-4 text-[10px] font-black text-[#00caa4] uppercase tracking-wider">Servicios & Soluciones</p>
+                <Link href="/servicios" onClick={() => setIsOpen(false)} className="block py-2.5 px-6 text-white/90 hover:text-white hover:bg-white/5 rounded-xl text-sm font-semibold flex items-center gap-2">
+                  <LayoutGrid className="w-4 h-4" /> Todos los servicios
+                </Link>
+                <Link href="/servicios/crm-whatsapp" onClick={() => setIsOpen(false)} className="block py-2.5 px-6 text-white/90 hover:text-white hover:bg-white/5 rounded-xl text-sm font-semibold flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" /> Pacto: CRM con WhatsApp
+                </Link>
                 <Link href="/solutions" onClick={() => setIsOpen(false)} className="block py-2.5 px-6 text-white/90 hover:text-white hover:bg-white/5 rounded-xl text-sm font-semibold flex items-center gap-2">
                   <Code2 className="w-4 h-4" /> Innovatech Solutions
                 </Link>
@@ -213,10 +214,8 @@ export default function Navbar() {
                 </Link>
               </div>
 
-              <Link href="/solutions#contact" onClick={() => setIsOpen(false)} className="block mt-6">
-                <button className="w-full py-3.5 bg-[#00caa4] text-white font-bold rounded-xl shadow-lg shadow-teal-500/20">
-                  Contáctanos
-                </button>
+              <Link href="/cotizar" onClick={() => setIsOpen(false)} className="mt-6 flex items-center justify-center gap-2 w-full py-3.5 bg-[#00caa4] text-white font-bold rounded-xl shadow-lg shadow-teal-500/20">
+                <ClipboardList className="w-4 h-4" /> Cotizar proyecto
               </Link>
             </div>
           </m.div>

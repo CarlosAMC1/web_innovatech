@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { Rocket, Mail, Phone, MapPin } from "lucide-react";
+import { Rocket, Mail, Phone, MapPin, BookOpen } from "lucide-react";
+import { services } from "@/lib/services";
 import { site, whatsappLink } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 pt-16 pb-8 mt-20">
+    <footer className="bg-slate-950 pt-16 pb-8 mt-20 print:hidden">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8 mb-12">
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center space-x-3 mb-6 group">
               <div className="w-10 h-10 bg-gradient-to-tr from-blue-500 to-green-400 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300 shadow-md shadow-blue-500/20">
@@ -32,6 +33,24 @@ export default function Footer() {
                   <span className="w-1.5 h-1.5 rounded-full bg-teal-500/50"></span> Innovatech Solutions
                 </Link>
               </li>
+              <li>
+                <Link href="/cotizar" className="text-slate-400 hover:text-teal-400 transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-500/50"></span> Cotizar proyecto
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-bold mb-6 text-lg tracking-wide">Software</h3>
+            <ul className="space-y-3">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/servicios/${s.slug}`} className="text-slate-400 hover:text-white text-sm transition-colors">
+                    {s.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -67,10 +86,19 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-slate-800 pt-8 text-center text-sm text-slate-500 flex flex-col md:flex-row justify-between items-center">
-          <p>© {new Date().getFullYear()} Innovatech. Todos los derechos reservados.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <p>
+            © {new Date().getFullYear()} {site.legal.businessName || "Innovatech"}
+            {site.legal.ruc && <> · RUC {site.legal.ruc}</>}. Todos los derechos reservados.
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mt-4 md:mt-0">
             <Link href="/privacidad" className="hover:text-white transition-colors">Política de Privacidad</Link>
             <Link href="/terminos" className="hover:text-white transition-colors">Términos de Servicio</Link>
+            <Link
+              href="/libro-de-reclamaciones"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition-colors"
+            >
+              <BookOpen className="w-4 h-4" /> Libro de Reclamaciones
+            </Link>
           </div>
         </div>
       </div>

@@ -2,11 +2,15 @@
 
 import { usePathname } from "next/navigation";
 import { whatsappLink } from "@/lib/site";
+import { isPactoChatEnabled } from "@/components/PactoChat";
 
 // Mensaje prellenado según la página en la que está la persona.
 function messageFor(pathname: string) {
   if (pathname.startsWith("/crece")) return "Hola, quiero información sobre los planes de Innovatech Crece.";
-  if (pathname.startsWith("/solutions")) return "Hola, quiero cotizar un proyecto de software con Innovatech.";
+  if (pathname.startsWith("/servicios/crm-whatsapp")) return "Hola, quiero una demo de Pacto, el CRM con WhatsApp.";
+  if (pathname.startsWith("/solutions") || pathname.startsWith("/servicios") || pathname.startsWith("/cotizar"))
+    return "Hola, quiero cotizar un proyecto de software con Innovatech.";
+  if (pathname.startsWith("/libro-de-reclamaciones")) return "Hola, tengo una consulta sobre un pedido.";
   return "Hola, quiero información sobre los servicios de Innovatech.";
 }
 
@@ -20,7 +24,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Escríbenos por WhatsApp"
-      className="group fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center gap-3 animate-fade-up"
+      className={`group fixed right-5 sm:right-6 z-40 flex items-center gap-3 animate-fade-up print:hidden ${isPactoChatEnabled ? "bottom-24 sm:bottom-24" : "bottom-5 sm:bottom-6"}`}
       style={{ animationDelay: "1s", paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <span className="hidden md:block px-4 py-2 rounded-xl bg-white text-slate-800 text-sm font-bold shadow-lg border border-slate-100 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">

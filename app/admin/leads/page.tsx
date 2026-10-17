@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Download, Mail, Inbox } from "lucide-react";
+import { Download, Mail, Inbox, MessageCircle } from "lucide-react";
 import prisma from "@/lib/db";
 import { isAuthorized } from "@/lib/admin-auth";
+import AdminNav from "@/components/AdminNav";
 
 export const metadata: Metadata = {
   title: "Leads",
@@ -34,6 +35,7 @@ export default async function LeadsPage() {
       <section className="bg-gradient-to-br from-[#00469b] via-[#091f5e] to-[#040e2c] text-white pt-32 pb-12">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
+            <AdminNav active="leads" />
             <p className="text-xs font-black text-[#00caa4] uppercase tracking-widest mb-2">Panel privado</p>
             <h1 className="text-3xl md:text-4xl font-black tracking-tight">Leads del formulario</h1>
             <p className="text-blue-100/70 text-sm mt-2">{leads.length} mensaje{leads.length === 1 ? "" : "s"} recibido{leads.length === 1 ? "" : "s"}</p>
@@ -67,13 +69,28 @@ export default async function LeadsPage() {
           <article key={lead.id} className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
               <div className="min-w-0">
-                <h2 className="font-black text-slate-900">{lead.name}</h2>
+                <h2 className="font-black text-slate-900 flex items-center gap-2">
+                  {lead.name}
+                  <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${lead.source === "cotizador" ? "bg-[#00caa4]/15 text-teal-700" : "bg-slate-100 text-slate-500"}`}>
+                    {lead.source}
+                  </span>
+                </h2>
                 <a href={`mailto:${lead.email}`} className="text-sm text-[#00469b] hover:underline break-all">{lead.email}</a>
               </div>
               <div className="flex items-center gap-3 shrink-0">
                 <time dateTime={lead.createdAt.toISOString()} className="text-xs text-slate-400 font-semibold">
                   {dateFormat.format(lead.createdAt)}
                 </time>
+                {lead.phone && (
+                  <a
+                    href={`https://wa.me/${lead.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white text-xs font-bold"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                  </a>
+                )}
                 <a
                   href={`mailto:${lead.email}?subject=${encodeURIComponent("Re: tu consulta en Innovatech")}`}
                   className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#00469b] hover:bg-[#003c85] text-white text-xs font-bold"

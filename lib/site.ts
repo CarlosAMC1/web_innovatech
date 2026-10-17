@@ -12,7 +12,26 @@ export const site = {
   // Correo de contacto con dominio propio. Si está vacío no se muestra en el sitio.
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   country: "Perú",
+  // Datos del proveedor para el Libro de Reclamaciones (obligatorios para vender a consumidores).
+  legal: {
+    businessName: process.env.NEXT_PUBLIC_RAZON_SOCIAL || "",
+    ruc: process.env.NEXT_PUBLIC_RUC || "",
+    address: process.env.NEXT_PUBLIC_DIRECCION_FISCAL || "",
+  },
+  // Enlace para agendar una llamada (Google Calendar, Calendly, etc.). Sin enlace, se agenda por WhatsApp.
+  bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || "",
+  // Widget de chat de Pacto (bandeja tipo "Sitio web" con el bot de Pacto AI asignado).
+  pacto: {
+    url: (process.env.NEXT_PUBLIC_PACTO_URL || "").replace(/\/$/, ""),
+    websiteToken: process.env.NEXT_PUBLIC_PACTO_WEBSITE_TOKEN || "",
+  },
 };
+
+export const BOOKING_WHATSAPP_MESSAGE = "Hola, quiero agendar una llamada de 15 minutos para conversar sobre mi proyecto.";
+
+export function bookingLink() {
+  return site.bookingUrl || whatsappLink(BOOKING_WHATSAPP_MESSAGE);
+}
 
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${site.whatsapp}`;

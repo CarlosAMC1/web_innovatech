@@ -5,9 +5,12 @@ import { MotionDiv } from "@/components/motion";
 import StatsBar from "@/components/home/StatsBar";
 import Showcase from "@/components/home/Showcase";
 import FaqItem from "@/components/FaqItem";
+import BookCallLink from "@/components/BookCallLink";
+import OpenChatButton from "@/components/OpenChatButton";
+import { CrmMockup } from "@/components/Mockups";
 import {
   ArrowRight, Rocket, Code2, ShieldCheck, Zap, TrendingUp, Star, Globe, Database,
-  Smartphone, MessageCircle, HelpCircle, Sparkles
+  Smartphone, HelpCircle, Sparkles, Check, ClipboardList
 } from "lucide-react";
 
 /* ─── Testimonios ───
@@ -190,6 +193,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ========== PACTO — CRM propio (White) ========== */}
+      <section className="w-full py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00caa4]/10 border border-[#00caa4]/20 text-teal-700 text-[10px] font-black uppercase tracking-wider mb-4">
+              <Sparkles className="w-3.5 h-3.5" /> Nuestro producto
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 leading-[1.05]">
+              Pacto: el CRM con WhatsApp e IA que vende por ti
+            </h2>
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-6 max-w-xl">
+              Todas tus conversaciones de WhatsApp, Instagram, Messenger y tu web en una sola bandeja, con pipeline de ventas,
+              seguimientos automáticos y una IA que atiende a tus clientes al instante.
+            </p>
+            <ul className="space-y-2.5 mb-8">
+              {["Bandeja omnicanal para todo tu equipo", "Pipeline de ventas y metas en un dashboard", "Pacto AI responde y pasa a un asesor cuando hace falta", "Flows para reactivar leads que dejaron de responder"].map((t) => (
+                <li key={t} className="flex gap-2 text-sm text-slate-700">
+                  <Check className="w-4 h-4 text-[#00caa4] shrink-0 mt-0.5" /> {t}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/servicios/crm-whatsapp" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-[#00469b] hover:bg-[#003c85] text-white transition-all">
+                Conocer Pacto <ArrowRight className="w-4 h-4" />
+              </Link>
+              <OpenChatButton className="bg-[#00caa4]/10 hover:bg-[#00caa4]/20 text-teal-800 border border-[#00caa4]/30" />
+            </div>
+          </div>
+          <div className="rounded-3xl overflow-hidden shadow-2xl shadow-slate-300/60 border border-slate-200 bg-slate-900 p-2">
+            <CrmMockup title="Ejemplo de la bandeja de Pacto" className="block w-full h-auto rounded-2xl" />
+          </div>
+        </div>
+      </section>
+
       {/* ========== 4. CÓMO FUNCIONA (Dark Royal Blue) ========== */}
       <section className="w-full py-24 bg-gradient-to-br from-[#040e2c] via-[#091f5e] to-[#00469b] text-white relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00caa4]/5 blur-[150px] rounded-full pointer-events-none" />
@@ -335,15 +372,12 @@ export default function Home() {
             Ya sea que busques construir una intranet empresarial robusta o aumentar tu alcance y ventas en Instagram, somos tu socio tecnológico estratégico.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/solutions#contact">
-              <button className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-teal-500/20 flex items-center gap-2 justify-center text-sm uppercase tracking-wider">
-                <MessageCircle className="w-5 h-5" /> Contáctanos
-              </button>
+            <Link href="/cotizar" className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-teal-500/20 flex items-center gap-2 justify-center text-sm uppercase tracking-wider">
+              <ClipboardList className="w-5 h-5" /> Cotizar proyecto
             </Link>
-            <Link href={whatsappLink()} target="_blank" rel="noopener noreferrer">
-              <button className="px-8 py-4 rounded-xl font-bold bg-green-500 text-white hover:bg-green-600 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center gap-2 justify-center text-sm uppercase tracking-wider">
-                <Zap className="w-5 h-5" /> WhatsApp Directo
-              </button>
+            <BookCallLink className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white uppercase tracking-wider" />
+            <Link href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-xl font-bold bg-green-500 text-white hover:bg-green-600 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center gap-2 justify-center text-sm uppercase tracking-wider">
+              <Zap className="w-5 h-5" /> WhatsApp
             </Link>
           </div>
         </div>

@@ -14,8 +14,8 @@ export async function GET(req: Request) {
 
   const leads = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
   const rows = [
-    ["Fecha", "Nombre", "Correo", "Mensaje"],
-    ...leads.map((l) => [l.createdAt.toISOString(), l.name, l.email, l.message]),
+    ["Fecha", "Origen", "Nombre", "Correo", "WhatsApp", "Mensaje"],
+    ...leads.map((l) => [l.createdAt.toISOString(), l.source, l.name, l.email, l.phone ?? "", l.message]),
   ];
   // El BOM inicial hace que Excel lea bien las tildes.
   const csv = "﻿" + rows.map((r) => r.map(csvCell).join(",")).join("\r\n");

@@ -1,45 +1,14 @@
 import { MotionDiv } from "@/components/motion";
-import { 
-  Code2, Server, ShieldCheck, Database, Smartphone, 
-  Globe, TerminalSquare
-} from "lucide-react";
+import { Code2, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { services } from "@/lib/services";
+import BookCallLink from "@/components/BookCallLink";
 import ContactForm from "@/components/ContactForm";
 import TechStack from "@/components/solutions/TechStack";
 import Portfolio from "@/components/solutions/Portfolio";
 
-const services = [
-  {
-    icon: Globe,
-    title: "Desarrollo Web Moderno",
-    description: "Sitios web rápidos, responsivos y con diseños vanguardistas que convierten visitantes en clientes.",
-  },
-  {
-    icon: Smartphone,
-    title: "Aplicaciones Móviles",
-    description: "Apps nativas e híbridas para iOS y Android con experiencias de usuario intuitivas.",
-  },
-  {
-    icon: Database,
-    title: "Sistemas a Medida",
-    description: "Software de gestión empresarial (ERP, CRM) adaptado exactamente a los procesos de tu negocio.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Ciberseguridad",
-    description: "Auditorías de seguridad, pentesting y protección de datos para mantener tu infraestructura a salvo de hackers.",
-  },
-  {
-    icon: Server,
-    title: "Cloud & DevOps",
-    description: "Despliegue y mantenimiento de aplicaciones en la nube con alta disponibilidad y escalabilidad.",
-  },
-  {
-    icon: TerminalSquare,
-    title: "Automatización con IA",
-    description: "Integración de inteligencia artificial para automatizar procesos repetitivos y ahorrar costos.",
-  },
-];
+// Tarjetas de servicios: enlazan a la página de cada servicio.
+const serviceCards = services.map((s) => ({ icon: s.icon, title: s.name, description: s.intro, href: `/servicios/${s.slug}` }));
 
 export default function SolutionsPage() {
   return (
@@ -65,11 +34,12 @@ export default function SolutionsPage() {
           </p>
           
           <div className="animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Link href="#contact">
-              <button className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
-                Solicitar Cotización
-              </button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/cotizar" className="px-8 py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
+                Cotizar mi proyecto
+              </Link>
+              <BookCallLink className="bg-white/10 hover:bg-white/20 border border-white/20 text-white" />
+            </div>
           </div>
         </div>
       </section>
@@ -100,7 +70,7 @@ export default function SolutionsPage() {
           }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {services.map((service, index) => (
+          {serviceCards.map((service, index) => (
             <MotionDiv
               key={index}
               variants={{
@@ -111,15 +81,20 @@ export default function SolutionsPage() {
                 y: -6, 
                 boxShadow: "0 15px 30px -10px rgba(0,70,155,0.15)"
               }}
-              className="bg-slate-50 border border-slate-200 rounded-3xl p-8 shadow-sm cursor-default transition-all duration-300"
+              className="bg-slate-50 border border-slate-200 rounded-3xl shadow-sm transition-all duration-300"
             >
+              <Link href={service.href} className="group block p-8 h-full">
               <div className="w-12 h-12 bg-[#00caa4]/10 rounded-xl flex items-center justify-center mb-6 border border-[#00caa4]/20">
                 <service.icon className="w-6 h-6 text-[#00469b]" />
               </div>
               <h3 className="text-lg font-bold mb-3 text-slate-900">{service.title}</h3>
-              <p className="text-slate-500 text-xs leading-relaxed">
+              <p className="text-slate-500 text-xs leading-relaxed mb-4">
                 {service.description}
               </p>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#00469b] group-hover:text-[#00caa4]">
+                Ver servicio <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+              </Link>
             </MotionDiv>
           ))}
         </MotionDiv>

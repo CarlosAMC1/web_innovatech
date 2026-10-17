@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { site } from "@/lib/site";
 import { MotionProvider } from "@/components/motion";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PactoChat from "@/components/PactoChat";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -45,6 +46,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <WhatsAppButton />
+          <PactoChat />
         </MotionProvider>
       </body>
     </html>

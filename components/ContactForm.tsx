@@ -12,7 +12,7 @@ const inputClass =
 const labelClass = "text-xs font-bold text-blue-100/80 uppercase tracking-wide";
 
 export default function ContactForm() {
-  const [form, setForm] = useState({ name: "", company: "", email: "", message: "", website: "" });
+  const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", message: "", website: "" });
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
@@ -40,7 +40,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, company: form.company || undefined, consent }),
+        body: JSON.stringify({ ...form, company: form.company || undefined, phone: form.phone || undefined, consent }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -93,10 +93,17 @@ export default function ContactForm() {
           <input id="contact-company" type="text" maxLength={100} autoComplete="organization" value={form.company} onChange={update("company")} className={inputClass} placeholder="Mi Empresa S.A.C." />
         </div>
       </div>
-      <div className="space-y-2">
-        <label htmlFor="contact-email" className={labelClass}>Correo Electrónico</label>
-        <input id="contact-email" type="email" required maxLength={200} autoComplete="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="correo@ejemplo.com" />
-        {fieldError("email")}
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label htmlFor="contact-email" className={labelClass}>Correo Electrónico</label>
+          <input id="contact-email" type="email" required maxLength={200} autoComplete="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="correo@ejemplo.com" />
+          {fieldError("email")}
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="contact-phone" className={labelClass}>WhatsApp (Opcional)</label>
+          <input id="contact-phone" type="tel" inputMode="tel" maxLength={20} autoComplete="tel" value={form.phone} onChange={update("phone")} className={inputClass} placeholder="987 654 321" />
+          {fieldError("phone")}
+        </div>
       </div>
       <div className="space-y-2">
         <label htmlFor="contact-message" className={labelClass}>Mensaje / Requerimiento</label>

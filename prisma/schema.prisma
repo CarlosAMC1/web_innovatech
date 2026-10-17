@@ -24,5 +24,30 @@ model Lead {
   email     String
   phone     String?
   message   String
+  source    String   @default("contacto") // 'contacto' | 'cotizador'
+  details   String?  // JSON con las respuestas del cotizador
   createdAt DateTime @default(now())
+}
+
+// Libro de Reclamaciones virtual (D.S. 011-2011-PCM y modificatorias).
+// Conservar los registros al menos 2 años.
+model Complaint {
+  id            String    @id @default(uuid())
+  number        Int       @unique // correlativo
+  kind          String    // 'reclamo' | 'queja'
+  name          String
+  documentType  String    // 'DNI' | 'CE' | 'Pasaporte'
+  documentNum   String
+  address       String
+  phone         String
+  email         String
+  guardian      String?   // padre, madre o apoderado si es menor de edad
+  itemType      String    // 'producto' | 'servicio'
+  amount        String?
+  itemDetail    String
+  detail        String
+  request       String
+  response      String?   // observaciones y acciones adoptadas por el proveedor
+  respondedAt   DateTime?
+  createdAt     DateTime  @default(now())
 }
