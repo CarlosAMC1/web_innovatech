@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Rocket, Mail, Phone, MapPin } from "lucide-react";
+import { site, whatsappLink } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -14,7 +15,7 @@ export default function Footer() {
               <span className="text-3xl font-extrabold text-white tracking-tight">Innovatech</span>
             </Link>
             <p className="text-slate-400 max-w-sm leading-relaxed">
-              Impulsa tu negocio al siguiente nivel. Soluciones tecnológicas, software a medida y crecimiento orgánico-simulado en redes sociales.
+              Impulsa tu negocio al siguiente nivel. Software a medida para empresas y crecimiento de Instagram para marcas y emprendedores.
             </p>
           </div>
           
@@ -37,23 +38,29 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-bold mb-6 text-lg tracking-wide">Contacto</h3>
             <ul className="space-y-4">
-              <li className="flex items-center text-slate-400">
-                <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center mr-3">
-                  <Phone className="w-4 h-4 text-green-400" />
-                </div>
-                +51 921 831 358
+              <li>
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="flex items-center text-slate-400 hover:text-white transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center mr-3">
+                    <Phone className="w-4 h-4 text-green-400" />
+                  </div>
+                  {site.phoneDisplay}
+                </a>
               </li>
-              <li className="flex items-center text-slate-400">
-                <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center mr-3">
-                  <Mail className="w-4 h-4 text-blue-400" />
-                </div>
-                contacto@innovatech.com
-              </li>
+              {site.email && (
+                <li>
+                  <a href={`mailto:${site.email}`} className="flex items-center text-slate-400 hover:text-white transition-colors">
+                    <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center mr-3">
+                      <Mail className="w-4 h-4 text-blue-400" />
+                    </div>
+                    {site.email}
+                  </a>
+                </li>
+              )}
               <li className="flex items-center text-slate-400">
                 <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center mr-3">
                   <MapPin className="w-4 h-4 text-teal-400" />
                 </div>
-                Perú
+                {site.country}
               </li>
             </ul>
           </div>
@@ -62,8 +69,8 @@ export default function Footer() {
         <div className="border-t border-slate-800 pt-8 text-center text-sm text-slate-500 flex flex-col md:flex-row justify-between items-center">
           <p>© {new Date().getFullYear()} Innovatech. Todos los derechos reservados.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-white transition-colors">Política de Privacidad</Link>
-            <Link href="#" className="hover:text-white transition-colors">Términos de Servicio</Link>
+            <Link href="/privacidad" className="hover:text-white transition-colors">Política de Privacidad</Link>
+            <Link href="/terminos" className="hover:text-white transition-colors">Términos de Servicio</Link>
           </div>
         </div>
       </div>

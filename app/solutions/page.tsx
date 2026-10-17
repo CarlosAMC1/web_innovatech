@@ -4,9 +4,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Code2, Server, ShieldCheck, Database, Smartphone, 
-  Globe, TerminalSquare, X, ArrowRight, Zap, Check, Cpu, Cloud, Settings
+  Globe, TerminalSquare, X
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import ContactForm from "@/components/ContactForm";
+import crmImg from "@/public/images/crm.png";
+import erpImg from "@/public/images/erp.png";
+import ecommerceImg from "@/public/images/ecommerce.png";
+import aiImg from "@/public/images/ai_automation.png";
 
 const services = [
   {
@@ -46,7 +52,7 @@ const portfolioItems = [
     id: "crm",
     title: "Sistemas de Gestión de Leads (CRM)",
     category: "CRM & CHAT",
-    image: "/images/crm.png",
+    image: crmImg,
     color: "blue",
     description: "Plataformas de atención al cliente (Omnicanalidad) con interfaces modernas y de alta respuesta para tus asesores de ventas.",
     details: "Desarrollamos CRMs personalizados que unifican WhatsApp, correos y redes sociales en una sola bandeja. Incorporamos analíticas de tiempo de respuesta, chatbots impulsados por IA para respuestas automáticas y una interfaz limpia que reduce la fatiga visual de los asesores que trabajan todo el día frente a la pantalla."
@@ -55,7 +61,7 @@ const portfolioItems = [
     id: "erp",
     title: "Intranet ERP Empresarial",
     category: "INTRANET ERP",
-    image: "/images/erp.png",
+    image: erpImg,
     color: "teal",
     description: "Dashboards gerenciales con métricas en tiempo real, filtros detallados y exportación de datos para la toma de decisiones empresariales.",
     details: "Un sistema integral de planificación de recursos (ERP) diseñado a la medida de los procesos internos. Incluye módulos de recursos humanos, control de inventario, facturación electrónica y un dashboard gerencial avanzado que cruza datos de diferentes departamentos para generar reportes predictivos y en tiempo real."
@@ -64,16 +70,16 @@ const portfolioItems = [
     id: "ecommerce",
     title: "Tiendas Virtuales Premium",
     category: "E-COMMERCE",
-    image: "/images/ecommerce.png",
+    image: ecommerceImg,
     color: "green",
     description: "Páginas de ventas de alto impacto visual diseñadas para generar confianza, retener al cliente y maximizar la conversión.",
-    details: "Tiendas online ultrarrápidas construidas con Next.js que ofrecen tiempos de carga en milisegundos. Integran pasarelas de pago seguras locales e internacionales, recuperación de carritos abandonados, gestión de cupones y un panel administrativo intuitivo para gestionar miles de productos sin complicaciones técnicas."
+    details: "Tiendas online rápidas construidas con Next.js y optimizadas para celulares. Integran pasarelas de pago seguras locales e internacionales, recuperación de carritos abandonados, gestión de cupones y un panel administrativo intuitivo para gestionar miles de productos sin complicaciones técnicas."
   },
   {
     id: "ai",
     title: "Automatización & Agentes Inteligentes IA",
     category: "AUTOMATIZACIÓN IA",
-    image: "/images/ai_automation.png",
+    image: aiImg,
     color: "teal",
     description: "Integración de modelos LLM y agentes de inteligencia artificial para optimizar soporte al cliente, análisis financiero y flujos internos.",
     details: "Desarrollamos agentes cognitivos de IA capaces de resolver tickets de soporte, clasificar leads y automatizar tareas administrativas complejas. Conectamos modelos de lenguaje avanzados con tus bases de datos mediante APIs seguras para que obtengas respuestas automáticas basadas en la realidad de tu empresa."
@@ -169,7 +175,7 @@ export default function SolutionsPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-blue-100/80 text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            Construimos software robusto, scalables y con altos estándares de ciberseguridad. Protegemos tu infraestructura mientras automatizamos tus operaciones comerciales.
+            Construimos software robusto, escalable y con buenas prácticas de ciberseguridad. Protegemos tu infraestructura mientras automatizamos tus operaciones comerciales.
           </motion.p>
           
           <motion.div
@@ -301,11 +307,11 @@ export default function SolutionsPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <span className="inline-block px-3 py-1 rounded-full bg-[#00caa4]/10 text-[#00caa4] text-[10px] font-black uppercase tracking-wider mb-3">
-              Garantía de Calidad
+              Qué Podemos Construir
             </span>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">Casos de Éxito y Ejemplos</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">Tipos de Soluciones</h2>
             <p className="text-slate-500 max-w-lg mx-auto text-xs md:text-sm">
-              Creamos aplicaciones de alto rendimiento optimizadas para la conversión y la eficiencia operativa.
+              Ejemplos ilustrativos de los sistemas que desarrollamos a medida según los procesos de cada negocio.
               <br/><span className="text-xs text-[#00caa4] font-bold mt-2 inline-block">Haz clic en cada tarjeta para ver los detalles.</span>
             </p>
           </div>
@@ -338,7 +344,7 @@ export default function SolutionsPage() {
                   className="rounded-3xl border border-slate-200 bg-white overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all"
                 >
                   <div className="relative h-56 overflow-hidden bg-slate-100">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" />
+                    <Image src={item.image} alt={`Ejemplo ilustrativo: ${item.title}`} fill sizes="(min-width: 768px) 512px, 100vw" placeholder="blur" className="object-cover group-hover:scale-102 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   <div className="p-8">
@@ -377,34 +383,7 @@ export default function SolutionsPage() {
               <p className="text-blue-100/70 text-sm">Déjanos tus datos y un especialista técnico se comunicará contigo de inmediato.</p>
             </div>
             
-            <form className="space-y-6 relative z-10" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Nombre Completo</label>
-                  <input type="text" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="Juan Pérez" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Empresa (Opcional)</label>
-                  <input type="text" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="Mi Empresa S.A.C." />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Correo Electrónico</label>
-                <input type="email" className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all placeholder:text-blue-200/30 text-sm" placeholder="correo@ejemplo.com" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-blue-100/80 uppercase tracking-wide">Mensaje / Requerimiento</label>
-                <textarea rows={4} className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#00caa4] transition-all resize-none placeholder:text-blue-200/30 text-sm" placeholder="Cuéntanos brevemente sobre tu proyecto..."></textarea>
-              </div>
-              
-              <button type="submit" className="w-full py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] text-white transition-all shadow-lg shadow-teal-500/20 uppercase text-xs tracking-wider">
-                Enviar Mensaje Seguro
-              </button>
-              
-              <p className="text-[10px] text-center text-blue-200/50 mt-4 flex items-center justify-center gap-1 font-bold">
-                <ShieldCheck className="w-4 h-4 text-[#00caa4]" /> Datos resguardados y cifrados de extremo a extremo.
-              </p>
-            </form>
+            <ContactForm />
           </motion.div>
         </div>
       </section>
@@ -427,9 +406,10 @@ export default function SolutionsPage() {
               className="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <div className="relative h-64 sm:h-80 w-full bg-slate-100">
-                <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-cover" />
+                <Image src={selectedProject.image} alt={`Ejemplo ilustrativo: ${selectedProject.title}`} fill sizes="(min-width: 768px) 768px, 100vw" placeholder="blur" className="object-cover" />
                 <button
                   onClick={() => setSelectedProject(null)}
+                  aria-label="Cerrar"
                   className="absolute top-4 right-4 bg-white/80 hover:bg-white text-slate-900 p-2 rounded-full backdrop-blur-md transition-all shadow-md"
                 >
                   <X className="w-5 h-5" />
@@ -449,7 +429,7 @@ export default function SolutionsPage() {
                   </div>
                   <div>
                     <h4 className="text-slate-900 font-bold mb-1 text-sm">Ingeniería Avanzada</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">Implementamos arquitecturas robustas y modulares bajo Next.js y React. Toda la base de datos se cifra de forma local e internacional para garantizar la confidencialidad.</p>
+                    <p className="text-xs text-slate-500 leading-relaxed">Implementamos arquitecturas modulares con Next.js y React, con control de accesos, copias de seguridad y conexiones cifradas (HTTPS) para proteger la información de tu negocio.</p>
                   </div>
                 </div>
               </div>

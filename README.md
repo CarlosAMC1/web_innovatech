@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Innovatech Web
 
-## Getting Started
+Sitio de Innovatech: **Innovatech Solutions** (software a medida) e **Innovatech Crece** (crecimiento en Instagram).
 
-First, run the development server:
+Hecho con Next.js 16 (App Router), Tailwind CSS 4, Framer Motion y Prisma (SQLite).
+
+## Páginas
+
+| Ruta | Contenido |
+| --- | --- |
+| `/` | Inicio |
+| `/solutions` | Servicios de software y formulario de contacto |
+| `/crece` | Planes de Instagram con calculadora y compra por WhatsApp |
+| `/privacidad` | Política de privacidad (Ley 29733) |
+| `/terminos` | Términos de servicio |
+| `/api/contact` | Recibe el formulario y guarda el lead en la base de datos |
+
+Los datos de contacto (WhatsApp, email, país) se editan en un solo lugar: `lib/site.ts`.
+
+## Desarrollo local
 
 ```bash
+npm install
+echo 'DATABASE_URL="file:./dev.db"' > .env
+npx prisma db push
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Cuándo | Para qué |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Al compilar (build arg) | Dominio público, ej. `https://innovatech.pe`. Lo usan el sitemap, robots y las vistas previas al compartir. |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Al compilar (build arg) | Correo con dominio propio. Si no se define, no se muestra. |
+| `DATABASE_URL` | Al ejecutar | Ya viene configurada en el Dockerfile: `file:/app/data/innovatech.db`. |
 
-## Learn More
+## Deploy en EasyPanel (Docker)
 
-To learn more about Next.js, take a look at the following resources:
+1. Agrega `NEXT_PUBLIC_SITE_URL` (y opcionalmente `NEXT_PUBLIC_CONTACT_EMAIL`) como **build args**.
+2. Monta un **volumen persistente en `/app/data`**. Sin volumen, los leads se borran en cada redeploy.
+3. Al arrancar, el contenedor crea o actualiza las tablas automáticamente (`prisma db push`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Ver los leads
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Los mensajes del formulario se guardan en la tabla `Lead`. Para revisarlos, abre la base de datos del volumen con
+`npx prisma studio` o cualquier visor de SQLite.
 
-## Deploy on Vercel
+## Testimonios
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La sección de testimonios del inicio solo aparece cuando agregas testimonios reales en el arreglo `testimonials` de
+`app/page.tsx`.

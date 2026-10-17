@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { site } from "@/lib/site";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -10,8 +11,18 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Innovatech - Crece y Soluciones",
-  description: "Soluciones tecnológicas y crecimiento en redes sociales para potenciar tu marca.",
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Innovatech: Software a Medida y Crecimiento en Instagram",
+    template: "%s | Innovatech",
+  },
+  description: site.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_PE",
+    siteName: site.name,
+  },
 };
 
 export default function RootLayout({

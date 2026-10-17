@@ -1,13 +1,18 @@
 "use client";
 
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { whatsappLink } from "@/lib/site";
+import heroImg from "@/public/images/hero.png";
+import crmImg from "@/public/images/crm.png";
+import erpImg from "@/public/images/erp.png";
+import ecommerceImg from "@/public/images/ecommerce.png";
 import { useRef, useEffect, useState } from "react";
 import {
-  ArrowRight, Rocket, Code2, ShieldCheck, Zap, Users,
-  TrendingUp, Star, ChevronDown, Globe, Database,
-  TerminalSquare, Smartphone, MessageCircle, HelpCircle,
-  Plus, Check, Sparkles, Laptop, SmartphoneIcon, UserCheck, Shield
+  ArrowRight, Rocket, Code2, ShieldCheck, Zap, TrendingUp, Star, ChevronDown, Globe, Database,
+  Smartphone, MessageCircle, HelpCircle,
+  Check, Sparkles
 } from "lucide-react";
 
 /* ─── Animated Counter Hook ─── */
@@ -35,6 +40,12 @@ function useCounter(end: number, duration = 2000) {
   return { count, ref };
 }
 
+/* ─── Testimonios ───
+   Agrega solo testimonios reales, con autorización del cliente.
+   Mientras la lista esté vacía, la sección no se muestra. Ejemplo:
+   { name: "Nombre A.", role: "Cargo, Empresa", text: "Lo que dijo el cliente." } */
+const testimonials: { name: string; role: string; text: string }[] = [];
+
 /* ─── FAQ Accordion Item ─── */
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
@@ -58,11 +69,13 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 /* ─── Main Home Component ─── */
 export default function Home() {
+  // Datos verificables del propio sitio. Si quieres mostrar clientes o proyectos,
+  // usa solo cifras reales que puedas respaldar.
   const stats = [
-    useCounter(500), // Clientes Satisfechos
-    useCounter(98),  // Tasa de Retención %
-    useCounter(24),  // Soporte h
-    useCounter(15),  // Países
+    useCounter(6),   // Servicios de software
+    useCounter(5),   // Planes Crece
+    useCounter(30),  // Precio desde (S/)
+    useCounter(0),   // Contraseñas solicitadas
   ];
 
   // State for the interactive case-studies section
@@ -73,7 +86,7 @@ export default function Home() {
       id: "crm",
       title: "Sistemas de Gestión de Leads (CRM)",
       category: "CRM & CHAT",
-      image: "/images/crm.png",
+      image: crmImg,
       color: "#00469b",
       description: "Plataformas de atención al cliente multicanal con interfaces modernas e integración de WhatsApp para asesores de ventas.",
       features: [
@@ -86,12 +99,12 @@ export default function Home() {
       id: "erp",
       title: "Intranet ERP Empresarial",
       category: "INTRANET ERP",
-      image: "/images/erp.png",
+      image: erpImg,
       color: "#00caa4",
       description: "Dashboards gerenciales con métricas en tiempo real, filtros detallados y exportación de datos para la toma de decisiones corporativas.",
       features: [
         "Módulos integrados de Inventario, Ventas y Facturación",
-        "Diseño intuitivo que reduce en 40% el tiempo de capacitación",
+        "Interfaz intuitiva para que tu equipo aprenda a usarlo rápido",
         "Exportación en un clic a formatos PDF, Excel y CSV"
       ]
     },
@@ -99,11 +112,11 @@ export default function Home() {
       id: "ecommerce",
       title: "Tiendas Virtuales Premium",
       category: "E-COMMERCE",
-      image: "/images/ecommerce.png",
+      image: ecommerceImg,
       color: "#10b981",
       description: "Páginas de venta de alta conversión y velocidad de carga diseñadas bajo el framework de Next.js.",
       features: [
-        "Velocidad de carga menor a 1 segundo para mejorar el SEO",
+        "Carga rápida y optimizada para celulares y SEO",
         "Pasarelas de pago locales integradas (Yape, Plin, Niubiz)",
         "Panel administrativo simplificado para inventarios y ofertas"
       ]
@@ -143,7 +156,7 @@ export default function Home() {
               </h1>
               
               <p className="text-base sm:text-lg text-blue-100/80 leading-relaxed max-w-xl mb-8">
-                Desarrollamos software premium a medida (CRM, ERP, Web) y escalamos tu cuenta de Instagram con seguidores 100% reales mediante software especializado. Todo en un solo lugar.
+                Desarrollamos software a medida (web, apps, CRM, ERP e IA) para ordenar y hacer crecer tu negocio. Y si necesitas impulso en Instagram, también te ayudamos con Innovatech Crece.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
@@ -169,8 +182,7 @@ export default function Home() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/30 border border-white/10 bg-slate-900/50 p-2 backdrop-blur-sm">
                 <div className="rounded-2xl overflow-hidden bg-slate-950">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/hero.png" alt="Innovatech Platform Dashboard" className="w-full h-auto opacity-90" />
+                  <Image src={heroImg} alt="Ejemplo de panel de control desarrollado a medida" preload sizes="(min-width: 1024px) 600px, 100vw" placeholder="blur" className="w-full h-auto opacity-90" />
                 </div>
               </div>
               {/* Floating badge */}
@@ -183,8 +195,8 @@ export default function Home() {
                   <TrendingUp className="w-6 h-6 text-[#00caa4]" />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Éxito Garantizado</p>
-                  <p className="text-sm font-black text-slate-900">+340% de Crecimiento</p>
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Pagos Locales</p>
+                  <p className="text-sm font-black text-slate-900">Yape, Plin y Transferencia</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -197,13 +209,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-slate-100">
             {[
-              { label: "Clientes Satisfechos", suffix: "+", idx: 0 },
-              { label: "Tasa de Retención", suffix: "%", idx: 1 },
-              { label: "Soporte TI Activo", suffix: "/24h", idx: 2 },
-              { label: "Proyectos Entregados", suffix: "+", idx: 3 },
-            ].map(({ label, suffix, idx }) => (
+              { label: "Servicios de Software", prefix: "", suffix: "", idx: 0 },
+              { label: "Planes Innovatech Crece", prefix: "", suffix: "", idx: 1 },
+              { label: "Planes Crece Desde", prefix: "S/ ", suffix: "", idx: 2 },
+              { label: "Contraseñas Solicitadas", prefix: "", suffix: "", idx: 3 },
+            ].map(({ label, prefix, suffix, idx }) => (
               <div key={label} className="px-4">
                 <p className="text-4xl md:text-5xl font-black text-[#00469b] tracking-tight leading-none">
+                  {prefix && <span className="text-[#00caa4]">{prefix}</span>}
                   <span ref={stats[idx].ref}>{stats[idx].count}</span>
                   <span className="text-[#00caa4]">{suffix}</span>
                 </p>
@@ -225,37 +238,36 @@ export default function Home() {
               Impulso digital en dos frentes
             </h2>
             <p className="text-slate-600 text-sm md:text-base max-w-xl mx-auto">
-              Desarrollamos soluciones de software robustas para tu negocio y potenciamos tu presencia en redes con crecimiento real orgánico.
+              Desarrollamos soluciones de software robustas para tu negocio y te ayudamos a impulsar tu presencia en Instagram.
             </p>
           </div>
 
           {/* Bento Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Big card — Crece */}
+            {/* Big card — Solutions */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00469b] to-[#040e2c] p-10 md:p-14 text-white shadow-xl transition-all"
+              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00caa4] to-teal-800 p-10 md:p-14 text-white shadow-xl transition-all"
             >
-              <div className="absolute top-0 right-0 w-80 h-80 bg-[#00caa4]/10 blur-[100px] rounded-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 blur-[100px] rounded-full pointer-events-none" />
               <div className="relative z-10">
                 <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/10 shadow-sm">
-                  <Rocket className="w-7 h-7 text-[#00caa4]" />
+                  <Code2 className="w-7 h-7 text-white" />
                 </div>
-                <span className="text-[10px] font-black text-[#00caa4] uppercase tracking-widest mb-2 block">Marketing de Crecimiento</span>
+                <span className="text-[10px] font-black text-white/90 uppercase tracking-widest mb-2 block">Ingeniería de Software</span>
                 <h3 className="text-3xl md:text-4xl font-black mb-4 leading-none">
-                  Innovatech Crece
+                  Innovatech Solutions
                 </h3>
-                <p className="text-blue-100/80 text-sm md:text-base leading-relaxed max-w-xl mb-8">
-                  Potencia tu perfil de Instagram con seguidores reales y activos. Nuestro software simula interacciones orgánicas de alta calidad sin riesgo de bloqueos.
+                <p className="text-teal-50 text-sm md:text-base leading-relaxed max-w-xl mb-8">
+                  Diseño de ERPs, CRMs integrados, despliegue en la nube, y automatización de procesos con Inteligencia Artificial. Software robusto para transformar la operativa.
                 </p>
-                <Link href="/crece">
-                  <button className="px-6 py-3.5 bg-[#00caa4] text-white hover:bg-[#00b08e] font-bold rounded-xl transition-all shadow-md flex items-center gap-2 text-sm">
-                    Ver Paquetes <ArrowRight className="w-4 h-4" />
+                <Link href="/solutions">
+                  <button className="px-6 py-3.5 bg-white text-teal-800 font-bold rounded-xl hover:bg-teal-50 transition-all shadow-md flex items-center gap-2 text-sm">
+                    Conocer Soluciones <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
               </div>
             </motion.div>
-
             {/* Small cards */}
             {[
               { icon: Globe, title: "Desarrollo Web", desc: "Plataformas rápidas, adaptadas a dispositivos móviles y orientadas a captar clientes." },
@@ -291,30 +303,31 @@ export default function Home() {
               </motion.div>
             ))}
 
-            {/* Big card — Solutions */}
+            {/* Big card — Crece */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00caa4] to-teal-800 p-10 md:p-14 text-white shadow-xl transition-all"
+              className="lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00469b] to-[#040e2c] p-10 md:p-14 text-white shadow-xl transition-all"
             >
-              <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 blur-[100px] rounded-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-80 h-80 bg-[#00caa4]/10 blur-[100px] rounded-full pointer-events-none" />
               <div className="relative z-10">
                 <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/10 shadow-sm">
-                  <Code2 className="w-7 h-7 text-white" />
+                  <Rocket className="w-7 h-7 text-[#00caa4]" />
                 </div>
-                <span className="text-[10px] font-black text-white/90 uppercase tracking-widest mb-2 block">Ingeniería de Software</span>
+                <span className="text-[10px] font-black text-[#00caa4] uppercase tracking-widest mb-2 block">Marketing de Crecimiento</span>
                 <h3 className="text-3xl md:text-4xl font-black mb-4 leading-none">
-                  Innovatech Solutions
+                  Innovatech Crece
                 </h3>
-                <p className="text-teal-50 text-sm md:text-base leading-relaxed max-w-xl mb-8">
-                  Diseño de ERPs, CRMs integrados, despliegue en la nube, y automatización de procesos con Inteligencia Artificial. Software robusto para transformar la operativa.
+                <p className="text-blue-100/80 text-sm md:text-base leading-relaxed max-w-xl mb-8">
+                  Impulsa tu perfil de Instagram con paquetes de seguidores entregados de forma gradual. Solo necesitamos tu @usuario: nunca pedimos contraseñas.
                 </p>
-                <Link href="/solutions">
-                  <button className="px-6 py-3.5 bg-white text-teal-800 font-bold rounded-xl hover:bg-teal-50 transition-all shadow-md flex items-center gap-2 text-sm">
-                    Conocer Soluciones <ArrowRight className="w-4 h-4" />
+                <Link href="/crece">
+                  <button className="px-6 py-3.5 bg-[#00caa4] text-white hover:bg-[#00b08e] font-bold rounded-xl transition-all shadow-md flex items-center gap-2 text-sm">
+                    Ver Paquetes <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
               </div>
             </motion.div>
+
           </div>
         </div>
       </section>
@@ -356,7 +369,7 @@ export default function Home() {
               {
                 step: "04",
                 title: "Software en Acción",
-                desc: "Nuestros sistemas automatizados comienzan a entregar seguidores reales y activos de manera progresiva y natural para evitar bloqueos."
+                desc: "Para Crece, iniciamos la entrega progresiva de seguidores. Para software, arrancamos el desarrollo con entregas por etapas que puedes revisar."
               }
             ].map((s, idx) => (
               <div key={idx} className="relative bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
@@ -377,13 +390,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block px-3 py-1 rounded-full bg-[#00469b]/5 border border-[#00469b]/10 text-[#00469b] text-[10px] font-black uppercase tracking-wider mb-3">
-              Casos de Éxito
+              Qué Construimos
             </span>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
-              Ejemplos de Sistemas Diseñados
+              Tipos de Sistemas que Desarrollamos
             </h2>
             <p className="text-slate-500 text-sm md:text-base max-w-lg mx-auto">
-              Explora las interfaces y el alcance de las plataformas web y CRM desarrolladas a la medida de nuestros clientes.
+              Ejemplos ilustrativos del alcance de las plataformas web, CRM y ERP que podemos construir para tu negocio.
             </p>
           </div>
 
@@ -431,7 +444,7 @@ export default function Home() {
 
                 {/* Right col - Mockup Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
-                  <img src={activeProject.image} alt={activeProject.title} className="w-full h-auto rounded-lg" />
+                  <Image src={activeProject.image} alt={`Ejemplo ilustrativo: ${activeProject.title}`} sizes="(min-width: 1024px) 420px, 100vw" placeholder="blur" className="w-full h-auto rounded-lg" />
                 </div>
               </div>
             </div>
@@ -440,33 +453,18 @@ export default function Home() {
       </section>
 
       {/* ========== 6. TESTIMONIALS (Slate-50) ========== */}
+      {testimonials.length > 0 && (
       <section className="w-full py-24 bg-slate-50 border-t border-b border-slate-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-xs font-black text-[#00469b] uppercase tracking-widest mb-3">Testimonios Reales</p>
+            <p className="text-xs font-black text-[#00469b] uppercase tracking-widest mb-3">Testimonios</p>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900">
               Lo Que Dicen Nuestros Clientes
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Carlos M.",
-                role: "CEO, AgriTech Perú",
-                text: "Innovatech nos desarrolló un ERP a medida que nos ahorró 5 horas diarias en gestión administrativa. La inversión se recuperó en 2 meses.",
-              },
-              {
-                name: "Lucía R.",
-                role: "Influencer, @luciafitperu",
-                text: "Pasé de 800 seguidores a 3,200 en menos de un mes con Innovatech Crece. Todos reales y activos. Me empezaron a llegar colaboraciones de marcas.",
-              },
-              {
-                name: "Roberto S.",
-                role: "Gerente de TI, Logística Express",
-                text: "Su equipo de ciberseguridad detectó vulnerabilidades críticas que otros pasaron por alto. Nos sentimos mucho más seguros ahora.",
-              },
-            ].map((t, i) => (
+            {testimonials.map((t, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -493,6 +491,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ========== 7. FAQ SECTION (White) ========== */}
       <section className="w-full py-24 bg-white">
@@ -506,11 +505,11 @@ export default function Home() {
             </h2>
           </div>
           <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
-            <FaqItem q="¿Es seguro comprar seguidores de Instagram?" a="Sí. No usamos bots. Nuestro software genera interacciones y visitas simuladas que el algoritmo de Instagram indexa como crecimiento orgánico natural. Nunca te pediremos contraseñas." />
+            <FaqItem q="¿Es seguro el servicio de Innovatech Crece?" a="Nunca te pediremos contraseñas: solo necesitamos tu @usuario. Entregamos los seguidores de forma gradual para que el crecimiento se vea natural. Ten en cuenta que Instagram puede eliminar seguidores en sus revisiones; por eso todos los planes incluyen garantía de reposición." />
             <FaqItem q="¿En cuánto tiempo veo resultados en Instagram?" a="Desde las primeras 24 horas para packs pequeños. Para packs grandes (2,000 seguidores), los enviamos de forma secuencial y distribuida en 3-5 días para mantener la seguridad." />
             <FaqItem q="¿Qué tipo de desarrollos a medida realizan?" a="Desarrollamos intranets ERP, sistemas de atención al cliente CRM multicanal, portales e-commerce Next.js y automatizaciones de flujos con inteligencia artificial." />
             <FaqItem q="¿Cómo entregan los reportes de ciberseguridad?" a="Entregamos un informe ejecutivo detallando las vulnerabilidades halladas en servidores o código, clasificados por severidad (Crítica, Alta, Media, Baja) junto con parches sugeridos." />
-            <FaqItem q="¿Cuáles son los medios de pago aceptados?" a="Aceptamos transferencias bancarias a cuentas corrientes de la empresa, Yape, Plin y tarjetas de crédito locales e internacionales por pasarelas de pago seguras." />
+            <FaqItem q="¿Cuáles son los medios de pago aceptados?" a="Aceptamos Yape, Plin y transferencia bancaria. Para proyectos de software coordinamos el pago por etapas." />
           </div>
         </div>
       </section>
@@ -531,7 +530,7 @@ export default function Home() {
                 <MessageCircle className="w-5 h-5" /> Contáctanos
               </button>
             </Link>
-            <Link href="https://wa.me/51921831358" target="_blank">
+            <Link href={whatsappLink()} target="_blank" rel="noopener noreferrer">
               <button className="px-8 py-4 rounded-xl font-bold bg-green-500 text-white hover:bg-green-600 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center gap-2 justify-center text-sm uppercase tracking-wider">
                 <Zap className="w-5 h-5" /> WhatsApp Directo
               </button>

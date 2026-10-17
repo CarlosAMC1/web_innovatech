@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Rocket, CheckCircle2, ShieldCheck, Camera, Search, 
-  CreditCard, TrendingUp, HelpCircle, ArrowRight, Zap, 
-  Check, Sparkles, Activity, Users, RefreshCw, Eye
+  CreditCard, TrendingUp, ArrowRight, Zap, 
+  Check, Sparkles, Activity, Users, RefreshCw
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { whatsappLink } from "@/lib/site";
+import growthImg from "@/public/images/instagram_growth.png";
 
 const packages = [
   {
@@ -53,7 +56,7 @@ const packages = [
     time: "Entrega Gradual (2-3 días)",
     features: [
       "800 Seguidores de alta calidad",
-      "Interacción simulada orgánica",
+      "Entrega gradual y natural",
       "Garantía de reposición (60 días)",
       "Soporte rápido por WhatsApp",
     ],
@@ -70,7 +73,7 @@ const packages = [
     time: "Distribución Natural (3-4 días)",
     features: [
       "1,000 Seguidores premium activos",
-      "Inyección orgánica segura",
+      "Entrega distribuida en varios días",
       "Máxima relación valor/precio",
       "Garantía de reposición (90 días)",
       "Soporte prioritario 24/7",
@@ -118,31 +121,47 @@ const steps = [
   {
     icon: TrendingUp,
     title: "4. Despegue Orgánico",
-    desc: "Nuestro software propietario inicia el envío progresivo de seguidores reales simulando actividad natural para cuidar tu cuenta."
+    desc: "Iniciamos el envío progresivo de seguidores, distribuido en el tiempo para que el crecimiento se vea natural."
   }
 ];
 
 /* ─── Floating Starry Sky Particles ─── */
+// Valores pseudoaleatorios fijos por índice: el servidor y el navegador generan
+// lo mismo, así se evita el error de hidratación que daba Math.random().
+const rand = (i: number, seed: number) => {
+  const x = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const particles = Array.from({ length: 25 }, (_, i) => ({
+  size: rand(i, 1) * 3 + 1.5,
+  left: rand(i, 2) * 100,
+  top: rand(i, 3) * 100,
+  opacity: rand(i, 4) * 0.25 + 0.05,
+  drift: rand(i, 5) * 30 - 15,
+  duration: rand(i, 6) * 15 + 12,
+}));
+
 function FloatingParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(25)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full bg-white"
           style={{
-            width: Math.random() * 3 + 1.5,
-            height: Math.random() * 3 + 1.5,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            opacity: Math.random() * 0.25 + 0.05,
+            width: p.size,
+            height: p.size,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            opacity: p.opacity,
           }}
           animate={{
             y: [0, -120, 0],
-            x: [0, Math.random() * 30 - 15, 0],
+            x: [0, p.drift, 0],
           }}
           transition={{
-            duration: Math.random() * 15 + 12,
+            duration: p.duration,
             repeat: Infinity,
             ease: "easeInOut",
           }}
@@ -161,8 +180,7 @@ function LiveCounterWidget() {
     const interval = setInterval(() => {
       setFollowers(prev => prev + Math.floor(Math.random() * 2) + 1);
       setPulse(true);
-      const timer = setTimeout(() => setPulse(false), 900);
-      return () => clearTimeout(timer);
+      setTimeout(() => setPulse(false), 900);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
@@ -181,7 +199,7 @@ function LiveCounterWidget() {
           </div>
         </div>
         <div>
-          <p className="text-xs font-black text-white">@innovatech.crece</p>
+          <p className="text-xs font-black text-white">@tu.marca</p>
           <p className="text-[9px] text-[#00caa4] font-black uppercase tracking-wider">Crecimiento Activo</p>
         </div>
       </div>
@@ -207,7 +225,7 @@ function LiveCounterWidget() {
           </div>
         </div>
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[9px] font-bold">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" /> En vivo
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" /> Simulación
         </span>
       </div>
     </motion.div>
@@ -252,7 +270,7 @@ export default function CrecePage() {
               </h1>
               
               <p className="text-base sm:text-lg text-blue-100/80 leading-relaxed max-w-xl mb-8">
-                Deja de pelear por alcance. Generamos interacciones y seguidores reales, activos y seguros que le dan a tu marca la autoridad comercial que necesita para vender más. Sin bots basura, 100% libre de shadowbans.
+                Dale a tu marca el empujón inicial que necesita. Paquetes de seguidores con entrega gradual, sin pedirte contraseñas y con garantía de reposición si hay bajas.
               </p>
 
               {/* Floating Widget & Info row */}
@@ -261,11 +279,11 @@ export default function CrecePage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
                     <Check className="w-4 h-4 text-[#00caa4]" />
-                    <span>Seguidores Premium Orgánicos</span>
+                    <span>Entrega Gradual y Natural</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
                     <Check className="w-4 h-4 text-[#00caa4]" />
-                    <span>Crecimiento Seguro por Software</span>
+                    <span>Sin Contraseñas: Solo tu @usuario</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs font-bold text-blue-100/90">
                     <Check className="w-4 h-4 text-[#00caa4]" />
@@ -303,7 +321,7 @@ export default function CrecePage() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950/80 p-2 cursor-pointer"
                 >
-                  <img src="/images/instagram_growth.png" alt="Instagram Growth Graphics" className="w-full h-auto rounded-2xl" />
+                  <Image src={growthImg} alt="Ilustración de crecimiento en Instagram" preload sizes="(min-width: 1024px) 450px, 100vw" placeholder="blur" className="w-full h-auto rounded-2xl" />
                 </motion.div>
               </div>
             </motion.div>
@@ -320,7 +338,7 @@ export default function CrecePage() {
           </span>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900">¿Por qué Innovatech Crece?</h2>
           <p className="text-slate-500 mt-3 max-w-lg mx-auto text-xs md:text-sm">
-            Nuestros servidores inyectan tráfico inteligente imitando la actividad real de los usuarios, haciendo el crecimiento imperceptible para el sistema de seguridad de Instagram.
+            Un servicio simple y transparente para darle a tu perfil la prueba social que ayuda a generar confianza en nuevos clientes.
           </p>
         </div>
 
@@ -329,26 +347,26 @@ export default function CrecePage() {
             {
               icon: Users,
               color: "text-blue-600 bg-blue-50 border-blue-100",
-              title: "Seguidores de Calidad",
-              desc: "Perfiles estructurados, con publicaciones, fotos y actividad. Sin cuentas fantasma vacías."
+              title: "Perfiles con Foto y Publicaciones",
+              desc: "Cuentas con foto de perfil y publicaciones, no perfiles vacíos sin contenido."
             },
             {
               icon: ShieldCheck,
               color: "text-emerald-600 bg-emerald-50 border-emerald-100",
-              title: "Crecimiento 100% Seguro",
-              desc: "Simulamos goteo natural por software propio. Tu cuenta no infringe ninguna regla interna."
+              title: "Sin Contraseñas",
+              desc: "Solo necesitamos tu @usuario. Nunca pedimos accesos y la entrega es gradual para que se vea natural."
             },
             {
               icon: RefreshCw,
               color: "text-pink-600 bg-pink-50 border-pink-100",
               title: "Garantía de Reposición",
-              desc: "¿Ocurrió una caída? Nuestro sistema detecta fluctuaciones y repone automáticamente las bajas de regalo."
+              desc: "¿Ocurrió una caída? Reponemos las bajas sin costo dentro del plazo de garantía de tu plan."
             },
             {
               icon: Activity,
               color: "text-amber-600 bg-amber-50 border-amber-100",
-              title: "Aumento de Alcance",
-              desc: "Instagram premia el volumen de tu comunidad. Más seguidores implica que el algoritmo priorice tus posts."
+              title: "Prueba Social",
+              desc: "Un perfil con más seguidores transmite más confianza a quien lo visita por primera vez."
             }
           ].map((item, idx) => (
             <motion.div 
@@ -407,7 +425,8 @@ export default function CrecePage() {
                 {/* Range Slider */}
                 <div className="relative pt-4">
                   <input 
-                    type="range" 
+                    type="range"
+                    aria-label="Cantidad de seguidores"
                     min="0" 
                     max="4" 
                     value={sliderVal} 
@@ -491,7 +510,7 @@ export default function CrecePage() {
                   <ul className="text-left space-y-2 mb-6 text-xs text-blue-100/80">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#00caa4] shrink-0" />
-                      <span>Tráfico orgánico-simulado</span>
+                      <span>Entrega gradual</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#00caa4] shrink-0" />
@@ -500,8 +519,9 @@ export default function CrecePage() {
                   </ul>
 
                   <Link 
-                    href={`https://wa.me/51921831358?text=Hola,%20quiero%20el%20servicio%20Crece%20de%20${currentPack.followersText}%20seguidores%20(${encodeURIComponent(currentPack.title)})%20por%20${encodeURIComponent(currentPack.price)}.`}
+                    href={whatsappLink(`Hola, quiero el servicio Crece de ${currentPack.followersText} seguidores (${currentPack.title}) por ${currentPack.price}.`)}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="block w-full"
                   >
                     <button className="w-full py-4 rounded-xl font-bold bg-[#00caa4] hover:bg-[#00b08e] hover:scale-[1.02] active:scale-[0.98] text-white transition-all shadow-md flex justify-center items-center gap-2 text-xs uppercase tracking-wider">
@@ -560,7 +580,7 @@ export default function CrecePage() {
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900">Elige tu Paquete Clásico</h2>
             <p className="text-slate-500 max-w-lg mx-auto text-xs md:text-sm">
-              Todos los paquetes se entregan de forma gradual para simular el comportamiento de viralidad de la plataforma.
+              Todos los paquetes se entregan de forma gradual para que el crecimiento se vea natural.
             </p>
           </div>
 
@@ -620,7 +640,7 @@ export default function CrecePage() {
                   ))}
                 </ul>
 
-                <Link href={`https://wa.me/51921831358?text=Hola,%20me%20interesa%20el%20paquete%20${encodeURIComponent(pkg.title)}`} target="_blank" className="w-full mt-auto">
+                <Link href={whatsappLink(`Hola, me interesa el paquete ${pkg.title} (${pkg.followersText} seguidores por ${pkg.price}).`)} target="_blank" rel="noopener noreferrer" className="w-full mt-auto">
                   <button className={`w-full py-3.5 rounded-xl font-bold transition-all flex justify-center items-center gap-2 text-xs uppercase tracking-wider shadow-sm ${
                     pkg.highlighted 
                       ? 'bg-[#00caa4] hover:bg-[#00b08e] text-white shadow-teal-500/20' 
@@ -648,12 +668,17 @@ export default function CrecePage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#00caa4]/10 blur-[80px] rounded-full pointer-events-none" />
             <ShieldCheck className="w-14 h-14 text-[#00caa4] mx-auto mb-6 relative z-10 bg-white/10 rounded-full p-2 border border-white/10 shadow-sm" />
             
-            <h2 className="text-2xl md:text-3xl font-black mb-4 text-white relative z-10">Cero riesgos de penalización</h2>
+            <h2 className="text-2xl md:text-3xl font-black mb-4 text-white relative z-10">Tu cuenta, siempre en tus manos</h2>
             <p className="text-blue-100/70 max-w-2xl mx-auto leading-relaxed relative z-10 text-xs md:text-sm">
-              Nuestros procesos de crecimiento están diseñados para respetar las directrices de la plataforma.
-              <strong className="text-white"> Jamás solicitaremos tus credenciales de acceso.</strong> Nuestro software inyecta visitas orgánicas que indexan de manera natural el perfil para garantizar total confidencialidad y estabilidad a largo plazo. ¡Asegura tu crecimiento!
+              <strong className="text-white">Jamás solicitaremos tus credenciales de acceso.</strong> Solo trabajamos con tu @usuario público, la entrega es gradual y, si hay bajas dentro del plazo de tu plan, las reponemos sin costo.
             </p>
           </motion.div>
+          <p className="text-[11px] text-slate-400 leading-relaxed text-center mt-8 max-w-2xl mx-auto">
+            Innovatech Crece es un servicio independiente, sin afiliación con Instagram ni Meta. Instagram puede eliminar
+            seguidores en sus revisiones periódicas y los resultados en alcance o ventas no están garantizados; las bajas se
+            reponen según la garantía de cada plan. Más detalles en nuestros{" "}
+            <Link href="/terminos" className="underline hover:text-slate-600">términos de servicio</Link>.
+          </p>
         </div>
       </section>
     </div>

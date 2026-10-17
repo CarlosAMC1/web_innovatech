@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Rocket, Code2, ChevronDown, Globe, Database, ShieldCheck, Smartphone, Server, TerminalSquare, ArrowRight, MessageSquare, Sparkles } from "lucide-react";
+import { Menu, X, Rocket, Code2, ChevronDown, Globe, Database, ShieldCheck, Smartphone, Server, TerminalSquare, ArrowRight, Sparkles } from "lucide-react";
 
 const servicesItems = [
   { icon: Globe, name: "Desarrollo Web", desc: "Sitios rápidos, modernos y optimizados para SEO.", href: "/solutions" },
@@ -70,8 +70,18 @@ export default function Navbar() {
           </Link>
 
           {/* Services Dropdown */}
-          <div className="relative" onMouseEnter={() => setActiveDropdown("services")} onMouseLeave={() => setActiveDropdown(null)}>
-            <button className="px-4 py-2 text-sm font-bold text-white/90 hover:text-white transition-colors rounded-lg hover:bg-white/10 flex items-center gap-1">
+          <div
+            className="relative"
+            onMouseEnter={() => setActiveDropdown("services")}
+            onMouseLeave={() => setActiveDropdown(null)}
+            onKeyDown={(e) => e.key === "Escape" && setActiveDropdown(null)}
+          >
+            <button
+              type="button"
+              aria-expanded={activeDropdown === "services"}
+              aria-haspopup="true"
+              onClick={() => setActiveDropdown(activeDropdown === "services" ? null : "services")}
+              className="px-4 py-2 text-sm font-bold text-white/90 hover:text-white transition-colors rounded-lg hover:bg-white/10 flex items-center gap-1">
               Servicios <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === "services" ? "rotate-180" : ""}`}/>
             </button>
             <AnimatePresence>
@@ -91,7 +101,7 @@ export default function Navbar() {
                       </p>
                       <div className="space-y-3">
                         {servicesItems.map(s => (
-                          <Link key={s.name} href={s.href} className="group/item flex gap-3 text-left">
+                          <Link key={s.name} href={s.href} onClick={() => setActiveDropdown(null)} className="group/item flex gap-3 text-left">
                             <div className="w-8 h-8 rounded-lg bg-[#00469b]/5 flex items-center justify-center group-hover/item:bg-[#00469b]/15 transition-colors shrink-0 mt-0.5">
                               <s.icon className="w-4 h-4 text-[#00469b]" />
                             </div>
@@ -132,7 +142,7 @@ export default function Navbar() {
                           Innovatech Crece
                         </h4>
                         <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                          Haz crecer tu Instagram de forma 100% segura con nuestro software de seguidores y engagement real. Sin bots.
+                          Impulsa tu Instagram con paquetes de seguidores de entrega gradual. Solo con tu @usuario, sin contraseñas.
                         </p>
                       </div>
                       
@@ -167,6 +177,9 @@ export default function Navbar() {
             </button>
           </Link>
           <button
+            type="button"
+            aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isOpen}
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden inline-flex items-center p-2 justify-center text-white rounded-lg hover:bg-white/10"
           >

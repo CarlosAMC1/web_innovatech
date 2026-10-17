@@ -3,43 +3,73 @@ import { z } from "zod";
 import prisma from "@/lib/db";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "El nombre es muy corto").max(100),
-  email: z.string().email("Correo electrónico inválido"),
-  company: z.string().max(100).optional(),
-  message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres").max(1000),
+  name: z.string().trim().min(2, "El nombre es muy corto").max(100),
+  email: z.email("Correo electrónico inválido").max(200),
+  company: z.string().trim().max(100).optional(),
+  message: z.string().trim().min(10, "El mensaje debe tener al menos 10 caracteres").max(1000),
+  consent: z.literal(true, "Debes aceptar la política de privacidad"),
+  // Campo trampa para bots: los humanos no lo ven, así que siempre llega vacío.
+  website: z.string().optional(),
 });
 
+// Límite simple en memoria: 5 envíos cada 10 minutos por IP.
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_REQUESTS = 5;
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  return recent.length > MAX_REQUESTS;
+}
+
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Demasiados envíos. Inténtalo en unos minutos o escríbenos por WhatsApp." },
+      { status: 429 }
+    );
+  }
+
+  let body: unknown;
   try {
-    const body = await req.json();
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Solicitud inválida" }, { status: 400 });
+  }
 
-    // 1. Validate Input (Cybersecurity: Prevent NoSQL/SQL Injection by ensuring strict schema)
-    const result = contactSchema.safeParse(body);
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Datos inválidos", details: result.error.format() },
-        { status: 400 }
-      );
-    }
+  // Validación estricta de la entrada antes de tocar la base de datos.
+  const result = contactSchema.safeParse(body);
+  if (!result.success) {
+    return NextResponse.json(
+      { error: "Revisa los datos del formulario", details: z.flattenError(result.error).fieldErrors },
+      { status: 400 }
+    );
+  }
 
-    const { name, email, message, company } = result.data;
+  const { name, email, company, message, website } = result.data;
+  if (website) {
+    // Bot detectado: respondemos como si todo fuera bien, pero no guardamos nada.
+    return NextResponse.json({ success: true }, { status: 201 });
+  }
 
-    // 2. Save to database securely using Prisma
+  try {
     const lead = await prisma.lead.create({
       data: {
         name,
         email,
-        message,
-        phone: company, // Storing company in phone for now as per schema or we should update schema. We'll store it as phone for simplicity in this demo.
+        message: company ? `Empresa: ${company}\n\n${message}` : message,
       },
     });
-
     return NextResponse.json({ success: true, leadId: lead.id }, { status: 201 });
   } catch (error) {
     console.error("Error saving contact:", error);
     return NextResponse.json(
-      { error: "Error interno del servidor. Nuestros sistemas de seguridad han bloqueado la acción por prevención." },
-      { status: 500 }
+      { error: "No pudimos guardar tu mensaje. Envíalo por WhatsApp y te respondemos ahí." },
+      { status: 503 }
     );
   }
 }
