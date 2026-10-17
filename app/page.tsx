@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { whatsappLink } from "@/lib/site";
-import heroImg from "@/public/images/hero.png";
+import HeroDashboard from "@/components/HeroDashboard";
 import crmImg from "@/public/images/crm.png";
 import erpImg from "@/public/images/erp.png";
 import ecommerceImg from "@/public/images/ecommerce.png";
@@ -181,9 +181,7 @@ export default function Home() {
               className="relative"
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/30 border border-white/10 bg-slate-900/50 p-2 backdrop-blur-sm">
-                <div className="rounded-2xl overflow-hidden bg-slate-950">
-                  <Image src={heroImg} alt="Ejemplo de panel de control desarrollado a medida" preload sizes="(min-width: 1024px) 600px, 100vw" placeholder="blur" className="w-full h-auto opacity-90" />
-                </div>
+                <HeroDashboard />
               </div>
               {/* Floating badge */}
               <motion.div

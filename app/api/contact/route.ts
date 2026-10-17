@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/db";
+import { notifyNewLead } from "@/lib/notify";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "El nombre es muy corto").max(100),
@@ -64,6 +65,8 @@ export async function POST(req: Request) {
         message: company ? `Empresa: ${company}\n\n${message}` : message,
       },
     });
+    // El aviso por correo se envía después de responder, para no hacer esperar al visitante.
+    after(() => notifyNewLead({ name, email, company, message }));
     return NextResponse.json({ success: true, leadId: lead.id }, { status: 201 });
   } catch (error) {
     console.error("Error saving contact:", error);

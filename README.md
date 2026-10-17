@@ -13,7 +13,8 @@ Hecho con Next.js 16 (App Router), Tailwind CSS 4, Framer Motion y Prisma (SQLit
 | `/crece` | Planes de Instagram con calculadora y compra por WhatsApp |
 | `/privacidad` | Política de privacidad (Ley 29733) |
 | `/terminos` | Términos de servicio |
-| `/api/contact` | Recibe el formulario y guarda el lead en la base de datos |
+| `/api/contact` | Recibe el formulario, guarda el lead y envía el aviso por correo |
+| `/admin/leads` | Panel privado para ver y exportar leads |
 
 Los datos de contacto (WhatsApp, email, país) se editan en un solo lugar: `lib/site.ts`.
 
@@ -35,6 +36,10 @@ Abre http://localhost:3000.
 | `NEXT_PUBLIC_SITE_URL` | Al compilar (build arg) | Dominio público, ej. `https://innovatech.pe`. Lo usan el sitemap, robots y las vistas previas al compartir. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Al compilar (build arg) | Correo con dominio propio. Si no se define, no se muestra. |
 | `DATABASE_URL` | Al ejecutar | Ya viene configurada en el Dockerfile: `file:/app/data/innovatech.db`. |
+| `ADMIN_PASSWORD` | Al ejecutar | Contraseña del panel `/admin/leads` (usuario: `admin`). Sin ella, el panel está desactivado. |
+| `RESEND_API_KEY` | Al ejecutar | Opcional. Clave de [Resend](https://resend.com) para recibir un correo por cada lead. |
+| `LEADS_NOTIFY_EMAIL` | Al ejecutar | Opcional. Correo(s) que reciben el aviso, separados por coma. |
+| `LEADS_FROM_EMAIL` | Al ejecutar | Opcional. Remitente con tu dominio verificado en Resend. Sin dominio verificado, Resend solo envía al correo de tu cuenta. |
 
 ## Deploy en EasyPanel (Docker)
 
@@ -44,8 +49,8 @@ Abre http://localhost:3000.
 
 ## Ver los leads
 
-Los mensajes del formulario se guardan en la tabla `Lead`. Para revisarlos, abre la base de datos del volumen con
-`npx prisma studio` o cualquier visor de SQLite.
+Entra a `/admin/leads` con usuario `admin` y la contraseña de `ADMIN_PASSWORD`. Ahí ves todos los mensajes, puedes
+responder por correo con un clic y descargarlos en CSV. Si configuras Resend, además te llega un correo por cada lead.
 
 ## Testimonios
 
