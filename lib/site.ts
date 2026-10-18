@@ -20,10 +20,11 @@ export const site = {
   },
   // Enlace para agendar una llamada (Google Calendar, Calendly, etc.). Sin enlace, se agenda por WhatsApp.
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || "",
-  // Widget de chat de Pacto (bandeja tipo "Sitio web" con el bot de Pacto AI asignado).
+  // Widget de chat de Pacto (bandeja "innovatech-peru.com" con el bot Pacto Web asignado).
+  // Se pueden cambiar sin recompilar con las variables PACTO_URL y PACTO_WEBSITE_TOKEN (ver /api/pacto-config).
   pacto: {
-    url: (process.env.NEXT_PUBLIC_PACTO_URL || "https://crm.innovatech-peru.com").replace(/\/$/, ""),
-    websiteToken: process.env.NEXT_PUBLIC_PACTO_WEBSITE_TOKEN || "TCNyRU2rJLYuu2cqUDCjF38K",
+    url: "https://crm.innovatech-peru.com",
+    websiteToken: "TCNyRU2rJLYuu2cqUDCjF38K",
   },
 };
 

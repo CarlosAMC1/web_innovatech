@@ -46,7 +46,7 @@ Abre http://localhost:3000.
 | `LEADS_FROM_EMAIL` | Al ejecutar | Opcional. Remitente con tu dominio verificado en Resend. Sin dominio verificado, Resend solo envía al correo de tu cuenta. |
 | `NEXT_PUBLIC_RAZON_SOCIAL`, `NEXT_PUBLIC_RUC`, `NEXT_PUBLIC_DIRECCION_FISCAL` | Al compilar (build arg) | Datos del proveedor para el Libro de Reclamaciones, el footer y la política de privacidad. **Obligatorios.** |
 | `NEXT_PUBLIC_BOOKING_URL` | Al compilar (build arg) | Enlace de agenda (Google Calendar, Calendly). Sin él, "Agendar llamada" abre WhatsApp. |
-| `NEXT_PUBLIC_PACTO_URL`, `NEXT_PUBLIC_PACTO_WEBSITE_TOKEN` | Al compilar (build arg) | Activan el chat de Pacto en la web. Sin ellos no se muestra. |
+| `PACTO_URL`, `PACTO_WEBSITE_TOKEN` | Al ejecutar (opcional) | Cambian el chat de Pacto sin recompilar (basta reiniciar). Por defecto usa `crm.innovatech-peru.com` y la bandeja `innovatech-peru.com` definidos en `lib/site.ts`. `PACTO_CHAT_DISABLED=1` lo oculta. |
 | `PACTO_LEADS_WEBHOOK_URL` | Al ejecutar | URL del Flow de Pacto con disparador "Webhook". Cada lead del contacto y del cotizador se envía ahí. |
 
 ## Deploy en EasyPanel (Docker)
@@ -66,7 +66,7 @@ responder por correo con un clic y descargarlos en CSV. Si configuras Resend, ad
 
 1. En Pacto: Configuración → Bandejas → Nueva bandeja → **Sitio web**, con el dominio de la web.
 2. Asigna el bot de **Pacto AI** a esa bandeja, para que responda y derive a un asesor cuando haga falta.
-3. Copia la URL de tu Pacto y el `websiteToken` de la bandeja en `NEXT_PUBLIC_PACTO_URL` y `NEXT_PUBLIC_PACTO_WEBSITE_TOKEN`.
+3. El token de la bandeja ya está en `lib/site.ts`. Para cambiarlo sin tocar código usa `PACTO_WEBSITE_TOKEN` (y `PACTO_URL`) en el entorno y reinicia.
 
 **Leads de los formularios**
 
