@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ShieldCheck, CheckCircle2, MessageCircle, Loader2, AlertTriangle } from "lucide-react";
 import { whatsappLink } from "@/lib/site";
+import { track, getAttribution } from "@/lib/analytics/client";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -40,7 +41,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, company: form.company || undefined, phone: form.phone || undefined, consent }),
+        body: JSON.stringify({ ...form, company: form.company || undefined, phone: form.phone || undefined, consent, attribution: getAttribution() }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -50,6 +51,7 @@ export default function ContactForm() {
         return;
       }
       setStatus("sent");
+      track("contact_submit");
     } catch {
       setError("Sin conexión. Inténtalo de nuevo o escríbenos por WhatsApp.");
       setStatus("error");

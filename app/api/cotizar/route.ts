@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { saveLead } from "@/lib/leads";
 import { isRateLimited } from "@/lib/rate-limit";
+import { attributionSchema, toLeadAttribution } from "@/lib/analytics/attribution";
 import { projectTypes, featureOptions, budgets, timelines, teamSizes, type ProjectType } from "@/lib/quote-options";
 
 const typeIds = projectTypes.map((t) => t.id) as [ProjectType, ...ProjectType[]];
@@ -20,6 +21,7 @@ const quoteSchema = z
     phone: z.string().trim().max(20).refine((v) => v.replace(/\D/g, "").length >= 9, "Número de WhatsApp inválido"),
     consent: z.literal(true, "Debes aceptar la política de privacidad"),
     website: z.string().optional(),
+    attribution: attributionSchema,
   })
   .refine((d) => d.features.every((f) => featureOptions[d.projectType].includes(f)), {
     message: "Opción no válida",
@@ -71,6 +73,7 @@ export async function POST(req: Request) {
       company: d.company || undefined,
       message,
       page: "/cotizar",
+      attribution: toLeadAttribution(d.attribution),
       details: {
         projectType: d.projectType,
         projectTypeLabel: typeLabel,

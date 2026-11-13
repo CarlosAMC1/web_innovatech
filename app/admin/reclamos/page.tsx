@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
 import { BookOpen, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
 import prisma from "@/lib/db";
-import { isAuthorized } from "@/lib/admin-auth";
+import { requireAdmin } from "@/lib/admin-session";
 import { complaintCode, addBusinessDays, RESPONSE_BUSINESS_DAYS, dateFormat, dateTimeFormat } from "@/lib/complaints";
 import AdminNav from "@/components/AdminNav";
 
@@ -13,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ReclamosAdminPage({ searchParams }: PageProps<"/admin/reclamos">) {
-  if (!isAuthorized((await headers()).get("authorization"))) notFound();
+  await requireAdmin("/admin/reclamos");
   const { ok } = await searchParams;
 
   let complaints: Awaited<ReturnType<typeof prisma.complaint.findMany>> = [];

@@ -26,7 +26,36 @@ model Lead {
   message   String
   source    String   @default("contacto") // 'contacto' | 'cotizador'
   details   String?  // JSON con las respuestas del cotizador
+  // De dónde vino la persona (misma atribución que las estadísticas)
+  visitorId    String?
+  attrSource   String?
+  attrMedium   String?
+  attrCampaign String?
   createdAt DateTime @default(now())
+}
+
+// Estadísticas propias: una fila por visita a una página o por acción (clic, chat, cotizador...).
+// No guarda IP ni datos personales; visitorId es un identificador aleatorio del navegador.
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  day       String   // YYYY-MM-DD en hora de Lima
+  type      String   // pageview, chat_open, whatsapp_click, quote_step, quote_submit...
+  path      String
+  visitorId String
+  sessionId String
+  source    String   // google, instagram, facebook, directo...
+  medium    String?
+  campaign  String?
+  referrer  String?  // dominio de origen
+  device    String   // mobile | tablet | desktop
+  browser   String?
+  os        String?
+  props     String?  // JSON con datos extra del evento
+
+  @@index([day])
+  @@index([type, day])
+  @@index([visitorId])
 }
 
 // Libro de Reclamaciones virtual (D.S. 011-2011-PCM y modificatorias).

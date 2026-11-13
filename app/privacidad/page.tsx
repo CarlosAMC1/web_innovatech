@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <LegalPage title="Política de Privacidad" updated="17 de octubre de 2026">
+    <LegalPage title="Política de Privacidad" updated="13 de noviembre de 2026">
       <p>
         En {site.name} respetamos tu privacidad. Esta política explica qué datos personales recopilamos a través de este
         sitio web y de WhatsApp, para qué los usamos y cómo puedes ejercer tus derechos, conforme a la Ley N.° 29733, Ley
@@ -34,6 +34,11 @@ export default function PrivacidadPage() {
         <li>WhatsApp: tu número de teléfono, nombre de perfil y lo que nos escribas.</li>
         <li>Innovatech Crece: tu @usuario público de Instagram. Nunca pedimos contraseñas.</li>
         <li>Pagos: el comprobante (voucher) que nos envíes para confirmar tu compra.</li>
+        <li>
+          Estadísticas de uso: páginas que visitas, de dónde llegas (por ejemplo Google o un anuncio), tipo de equipo y
+          acciones como abrir el chat o usar el cotizador. Usamos un identificador aleatorio guardado en tu navegador; no
+          guardamos tu dirección IP ni lo compartimos con terceros. Puedes rechazarlo en el aviso de cookies.
+        </li>
       </ul>
 
       <h2>3. Para qué usamos tus datos</h2>

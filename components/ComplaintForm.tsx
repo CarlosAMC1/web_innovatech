@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Loader2, Printer, CheckCircle2, AlertTriangle } from "lucide-react";
+import { track } from "@/lib/analytics/client";
 
 type Provider = { businessName: string; ruc: string; address: string };
 
@@ -61,6 +62,7 @@ export default function ComplaintForm({ provider }: { provider: Provider }) {
       }
       setReceipt({ code: data.code, createdAt: data.createdAt });
       setStatus("sent");
+      track("complaint_submit", { kind: f.kind });
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setError("Sin conexión. Inténtalo de nuevo.");

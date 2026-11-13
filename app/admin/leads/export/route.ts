@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { isAuthorized } from "@/lib/admin-auth";
+import { isAdminSession } from "@/lib/admin-session";
 
 const csvCell = (value: string) => {
   // Evita que Excel interprete el contenido como fórmula.
@@ -7,8 +7,8 @@ const csvCell = (value: string) => {
   return `"${safe.replace(/"/g, '""')}"`;
 };
 
-export async function GET(req: Request) {
-  if (!isAuthorized(req.headers.get("authorization"))) {
+export async function GET() {
+  if (!(await isAdminSession())) {
     return new Response("Not found", { status: 404 });
   }
 

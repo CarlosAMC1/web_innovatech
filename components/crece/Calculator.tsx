@@ -6,6 +6,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { Check, CheckCircle2, Zap } from "lucide-react";
 import { packages } from "@/lib/crece-packages";
 import { whatsappLink } from "@/lib/site";
+import { track } from "@/lib/analytics/client";
 
 // Calculadora interactiva de planes Crece.
 export default function Calculator() {
@@ -42,7 +43,11 @@ export default function Calculator() {
               min="0" 
               max="4" 
               value={sliderVal} 
-              onChange={(e) => setSliderVal(parseInt(e.target.value))}
+              onChange={(e) => {
+                      const value = parseInt(e.target.value);
+                      setSliderVal(value);
+                      track("calculator_use", { plan: packages[value].followersText });
+                    }}
               className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#e1306c] border border-slate-200" 
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase mt-3 px-1">

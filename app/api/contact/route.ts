@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { saveLead } from "@/lib/leads";
 import { isRateLimited } from "@/lib/rate-limit";
+import { attributionSchema, toLeadAttribution } from "@/lib/analytics/attribution";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "El nombre es muy corto").max(100),
@@ -17,6 +18,7 @@ const contactSchema = z.object({
   consent: z.literal(true, "Debes aceptar la política de privacidad"),
   // Campo trampa para bots: los humanos no lo ven, así que siempre llega vacío.
   website: z.string().optional(),
+  attribution: attributionSchema,
 });
 
 export async function POST(req: Request) {
@@ -43,14 +45,14 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, phone, company, message, website } = result.data;
+  const { name, email, phone, company, message, website, attribution } = result.data;
   if (website) {
     // Bot detectado: respondemos como si todo fuera bien, pero no guardamos nada.
     return NextResponse.json({ success: true }, { status: 201 });
   }
 
   try {
-    const lead = await saveLead({ source: "contacto", name, email, phone: phone || undefined, company, message, page: "/solutions" });
+    const lead = await saveLead({ source: "contacto", name, email, phone: phone || undefined, company, message, page: "/solutions", attribution: toLeadAttribution(attribution) });
     return NextResponse.json({ success: true, leadId: lead.id }, { status: 201 });
   } catch (error) {
     console.error("Error saving contact:", error);

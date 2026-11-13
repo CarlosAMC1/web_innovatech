@@ -18,7 +18,8 @@ Hecho con Next.js 16 (App Router), Tailwind CSS 4, Framer Motion y Prisma (SQLit
 | `/libro-de-reclamaciones` | Libro de Reclamaciones virtual |
 | `/api/contact`, `/api/cotizar` | Guardan el lead, avisan por correo y lo envían a Pacto |
 | `/api/reclamaciones` | Registra el reclamo y envía la constancia por correo |
-| `/admin/leads`, `/admin/reclamos` | Panel privado: leads (con CSV) y reclamos (con plazo y respuesta) |
+| `/admin` | Panel privado: estadísticas propias (visitas, orígenes, campañas, embudo), leads (con CSV) y reclamos |
+| `/api/track` | Recibe los eventos de estadísticas del navegador |
 
 Los datos de contacto (WhatsApp, email, país) se editan en un solo lugar: `lib/site.ts`.
 
@@ -40,7 +41,9 @@ Abre http://localhost:3000.
 | `NEXT_PUBLIC_SITE_URL` | Al compilar (build arg) | Dominio público, ej. `https://innovatech.pe`. Lo usan el sitemap, robots y las vistas previas al compartir. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Al compilar (build arg) | Correo con dominio propio. Si no se define, no se muestra. |
 | `DATABASE_URL` | Al ejecutar | Ya viene configurada en el Dockerfile: `file:/app/data/innovatech.db`. |
-| `ADMIN_PASSWORD` | Al ejecutar | Contraseña del panel `/admin/leads` (usuario: `admin`). Sin ella, el panel está desactivado. |
+| `ADMIN_PASSWORD` | Al ejecutar | Contraseña del panel `/admin`. Sin ella, el panel está desactivado. Al cambiarla se cierran todas las sesiones. |
+| `ADMIN_USER` | Al ejecutar | Opcional. Usuario del panel (por defecto `admin`). |
+| `ADMIN_SESSION_SECRET` | Al ejecutar | Opcional. Texto secreto extra para firmar la sesión del panel. |
 | `RESEND_API_KEY` | Al ejecutar | Opcional. Clave de [Resend](https://resend.com) para recibir un correo por cada lead. |
 | `LEADS_NOTIFY_EMAIL` | Al ejecutar | Opcional. Correo(s) que reciben el aviso, separados por coma. |
 | `LEADS_FROM_EMAIL` | Al ejecutar | Opcional. Remitente con tu dominio verificado en Resend. Sin dominio verificado, Resend solo envía al correo de tu cuenta. |
@@ -55,10 +58,23 @@ Abre http://localhost:3000.
 2. Monta un **volumen persistente en `/app/data`**. Sin volumen, los leads se borran en cada redeploy.
 3. Al arrancar, el contenedor crea o actualiza las tablas automáticamente (`prisma db push`).
 
-## Ver los leads
+## Panel de administración
 
-Entra a `/admin/leads` con usuario `admin` y la contraseña de `ADMIN_PASSWORD`. Ahí ves todos los mensajes, puedes
-responder por correo con un clic y descargarlos en CSV. Si configuras Resend, además te llega un correo por cada lead.
+Entra a `/admin` con usuario `admin` (o `ADMIN_USER`) y la contraseña de `ADMIN_PASSWORD`. La sesión dura 7 días.
+
+- **Resumen:** visitantes, páginas vistas, leads, conversión, chats y clics de WhatsApp; visitantes por día; embudo
+  de conversión; orígenes, campañas, páginas, acciones y dispositivos. Periodos: hoy, 7, 30 y 90 días.
+- **Crear enlace para una campaña:** arma enlaces con `utm_source`, `utm_medium` y `utm_campaign` para medir cada
+  anuncio o publicación. Los leads guardan de qué origen y campaña vinieron.
+- **Leads:** todos los mensajes, responder por correo o WhatsApp y descargar CSV.
+- **Reclamos:** Libro de Reclamaciones con plazos y respuesta.
+
+## Estadísticas propias
+
+La web mide visitas y acciones sin servicios externos (tabla `Event`). El navegador guarda un identificador
+aleatorio (`localStorage`), sin IP ni datos personales; los bots se descartan. Quien pulsa "Rechazar" en el aviso de
+cookies deja de ser medido. Eventos: `pageview`, `chat_open`, `chat_start`, `whatsapp_click`, `book_call`,
+`cta_cotizar`, `quote_step`, `quote_submit`, `contact_submit`, `complaint_submit`, `calculator_use`, `contact_click`.
 
 ## Conectar con Pacto
 

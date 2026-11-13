@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, Loader2, MessageCircle, AlertTriangle } from "lucide-react";
 import { projectTypes, featureOptions, budgets, timelines, teamSizes, type ProjectType } from "@/lib/quote-options";
 import { whatsappLink } from "@/lib/site";
 import BookCallLink from "@/components/BookCallLink";
+import { track, getAttribution } from "@/lib/analytics/client";
 
 const STEPS = ["Proyecto", "Detalles", "Presupuesto", "Contacto"] as const;
 
@@ -38,6 +39,11 @@ export default function QuoteWizard() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[] | undefined>>({});
 
   const typeLabel = projectTypes.find((t) => t.id === projectType)?.label ?? "";
+
+  // Estadísticas: cada paso alcanzado del cotizador
+  useEffect(() => {
+    if (step > 0) track("quote_step", { step: step + 1, projectType: projectType || "ninguno" });
+  }, [step, projectType]);
   const canContinue = [
     projectType !== "",
     goal.trim().length >= 10,
@@ -64,7 +70,7 @@ export default function QuoteWizard() {
       const res = await fetch("/api/cotizar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectType, features, goal, budget, timeline, teamSize, ...contact, company: contact.company || undefined, consent }),
+        body: JSON.stringify({ projectType, features, goal, budget, timeline, teamSize, ...contact, company: contact.company || undefined, consent, attribution: getAttribution() }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -74,6 +80,7 @@ export default function QuoteWizard() {
         return;
       }
       setStatus("sent");
+      track("quote_submit", { projectType, budget });
     } catch {
       setError("Sin conexión. Inténtalo de nuevo o escríbenos por WhatsApp.");
       setStatus("error");

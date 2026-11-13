@@ -13,6 +13,8 @@ export type PactoEvent = {
   summary: string; // texto listo para usar en una nota o mensaje del flow
   details?: Record<string, unknown>;
   page?: string;
+  origin?: string; // de dónde vino: google, instagram, facebook, directo...
+  campaign?: string; // utm_campaign, si llegó desde un anuncio etiquetado
 };
 
 export async function sendToPacto(event: PactoEvent) {

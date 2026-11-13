@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
 import { Download, Mail, Inbox, MessageCircle } from "lucide-react";
 import prisma from "@/lib/db";
-import { isAuthorized } from "@/lib/admin-auth";
+import { requireAdmin } from "@/lib/admin-session";
 import AdminNav from "@/components/AdminNav";
 
 export const metadata: Metadata = {
@@ -19,7 +17,7 @@ const dateFormat = new Intl.DateTimeFormat("es-PE", {
 
 export default async function LeadsPage() {
   // El proxy ya pide la contraseña; se verifica otra vez aquí por seguridad.
-  if (!isAuthorized((await headers()).get("authorization"))) notFound();
+  await requireAdmin("/admin/leads");
 
   let leads: Awaited<ReturnType<typeof prisma.lead.findMany>> = [];
   let dbError = false;

@@ -1,12 +1,12 @@
 import prisma from "@/lib/db";
-import { isAuthorized } from "@/lib/admin-auth";
+import { isAdminSession } from "@/lib/admin-session";
 import { sendEmail, escapeHtml } from "@/lib/notify";
 import { complaintCode } from "@/lib/complaints";
 import { site } from "@/lib/site";
 
 // Guarda la respuesta del proveedor y la envía al correo del consumidor.
 export async function POST(req: Request) {
-  if (!isAuthorized(req.headers.get("authorization"))) {
+  if (!(await isAdminSession())) {
     return new Response("Not found", { status: 404 });
   }
 
