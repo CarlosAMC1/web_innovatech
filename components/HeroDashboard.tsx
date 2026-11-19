@@ -43,12 +43,8 @@ export default function HeroDashboard() {
         <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
         <div className="ml-3 flex items-center gap-2">
-          <span className="w-5 h-5 rounded-md bg-[#00469b] border border-[#00caa4] flex items-center justify-center">
-            <svg width="10" height="10" viewBox="0 0 100 100" aria-hidden="true">
-              <rect x="38" y="36" width="24" height="48" rx="8" fill="#00caa4" />
-              <circle cx="50" cy="18" r="14" fill="#00caa4" />
-            </svg>
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/icono-blanco.png" alt="" width={21} height={20} className="h-5 w-auto" />
           <span className="text-[11px] font-bold text-white/80">Panel de Gestión</span>
         </div>
         <span className="ml-auto text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-blue-100/70">

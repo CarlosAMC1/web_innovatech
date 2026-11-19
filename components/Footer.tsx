@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Rocket, Mail, Phone, MapPin, BookOpen } from "lucide-react";
+import Image from "next/image";
+import { Mail, Phone, MapPin, BookOpen } from "lucide-react";
+import logoBlanco from "@/public/brand/logo-blanco.png";
 import { services } from "@/lib/services";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -9,12 +11,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center space-x-3 mb-6 group">
-              <div className="w-10 h-10 bg-gradient-to-tr from-blue-500 to-green-400 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300 shadow-md shadow-blue-500/20">
-                <Rocket className="text-white w-6 h-6" />
-              </div>
-              <span className="text-3xl font-extrabold text-white tracking-tight">Innovatech</span>
+            <Link href="/" className="inline-block mb-3" aria-label="Innovatech, ir al inicio">
+              <Image src={logoBlanco} alt="Innovatech" sizes="200px" className="h-11 w-auto" />
             </Link>
+            <p className="text-[11px] font-bold tracking-[0.3em] text-slate-500 uppercase mb-5">Software · Automatización · IA</p>
             <p className="text-slate-400 max-w-sm leading-relaxed">
               Impulsa tu negocio al siguiente nivel. Software a medida para empresas y crecimiento de Instagram para marcas y emprendedores.
             </p>

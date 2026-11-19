@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import logoBlanco from "@/public/brand/logo-blanco.png";
 import { m, AnimatePresence } from "framer-motion";
 import { Menu, X, Rocket, Code2, ChevronDown, ArrowRight, Sparkles, ClipboardList, LayoutGrid } from "lucide-react";
 import { services } from "@/lib/services";
@@ -39,22 +41,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group shrink-0" onClick={() => setActiveDropdown(null)}>
-          <div className="relative flex items-center justify-center w-[40px] h-[40px] rounded-xl bg-[#00469b] border-2 border-[#00caa4] overflow-hidden shadow-md group-hover:border-white transition-colors">
-            {/* SVG Logo - Royal Blue Background with Green "i" isotype */}
-            <svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="38" y="36" width="24" height="48" rx="8" fill="#00caa4"/>
-              <circle cx="50" cy="18" r="14" fill="#00caa4"/>
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-black text-white tracking-tight leading-none">
-              INNOVATECH
-            </span>
-            <span className="text-[10px] font-bold text-[#00caa4] tracking-widest uppercase">
-              Solutions & Crece
-            </span>
-          </div>
+        <Link href="/" className="flex items-center shrink-0" onClick={() => setActiveDropdown(null)} aria-label="Innovatech, ir al inicio">
+          <Image src={logoBlanco} alt="Innovatech" preload sizes="160px" className="h-8 sm:h-9 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}

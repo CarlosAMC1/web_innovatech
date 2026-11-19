@@ -41,9 +41,7 @@ function WindowBar({ label, dark = true }: { label: string; dark?: boolean }) {
       <circle cx="18" cy="17" r="4.5" fill="#f87171" opacity="0.8" />
       <circle cx="32" cy="17" r="4.5" fill="#fbbf24" opacity="0.8" />
       <circle cx="46" cy="17" r="4.5" fill="#4ade80" opacity="0.8" />
-      <rect x="66" y="9" width="16" height="16" rx="4" fill={C.blue} stroke={C.teal} strokeWidth="1.5" />
-      <rect x="72" y="15" width="4" height="7" rx="1.5" fill={C.teal} />
-      <circle cx="74" cy="12.5" r="2" fill={C.teal} />
+      <image href={dark ? "/brand/icono-blanco.png" : "/brand/icono-oscuro.png"} x="66" y="9" width="17" height="16" />
       <text x="90" y="21.5" fontSize="11" fontWeight="700" fill={dark ? C.muted : "#475569"}>{label}</text>
       <rect x="586" y="10" width="40" height="14" rx="7" fill={dark ? "#ffffff14" : "#e2e8f0"} />
       <text x="606" y="20" fontSize="8" fontWeight="800" fill={dark ? C.muted : "#64748b"} textAnchor="middle">DEMO</text>
